@@ -6,7 +6,15 @@
 /*   By: avaldin <avaldin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 10:33:16 by avaldin           #+#    #+#             */
-/*   Updated: 2024/03/15 10:33:16 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/03/19 11:13:09 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../header/minishell.h"
+
+int	main(int argc, char **argv)
+{
+	(void)argc;
+	parsing(argv[1]);
+	return (0);
+}
