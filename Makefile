@@ -26,10 +26,10 @@ OBJ_PATH	=	.obj/
 
 		##		SOURCES_FILES		##
 
-SOURCES		=	main.c\
-				main_parsing.c\
+SOURCES		=	main_parsing.c\
 				ft_calloc.c\
 				ft_strlen.c\
+				main.c\
 
 
 HEADER		=	header/minishell.h

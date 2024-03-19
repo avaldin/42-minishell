@@ -6,7 +6,7 @@
 /*   By: avaldin <avaldin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 10:58:26 by avaldin           #+#    #+#             */
-/*   Updated: 2024/03/19 16:18:08 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/03/19 16:45:44 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,8 @@ void	create_new_line(char *line, char *new_line)
 		}
 		else
 			new_line[i_nl++] = line[i++];
+		new_line[i_nl] = 0;
+		printf("%s\n", new_line);
 	}
 	new_line[i_nl] = '\0';
 }
