@@ -6,7 +6,7 @@
 /*   By: avaldin <avaldin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 10:58:26 by avaldin           #+#    #+#             */
-/*   Updated: 2024/03/19 14:00:39 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/03/19 16:18:08 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ enum special_c	special_caracter(char *c)
 	return (NONE);
 }
 
-int quote(char *line, char *new_line)
+int quote(char *line, char *new_line, int *i_nl)
 {
 	int i;
 
@@ -47,12 +47,15 @@ int quote(char *line, char *new_line)
 	if (line[i++] == '"')
 		while (line[i] && line[i] != '"')
 		{
-			if ()
+			if (new_line)
+				new_line[*i_nl] = line[i];
 			i++;
 		}
 	else
 		while (line[i] && line[i] != 39)  // a test
 		{
+			if (new_line)
+				new_line[*i_nl] = line[i];
 			i++;
 		}
 	if (!line[i])
@@ -60,6 +63,8 @@ int quote(char *line, char *new_line)
 		printf("no end quote\n");
 		exit(1);                          // erreur a gerer
 	}
+	if (i_nl)
+		*i_nl += i + 1;
 	return (i);
 }
 // quand il y a une quote je passe jusqu'a ce qu'elle se termine psk on a pas a
@@ -77,7 +82,7 @@ int	operator_count(char *line)
 	{
 		if (line[i] == '"' || line[i] == 39)
 		{
-			i += quote(&line[i]);
+			i += quote(&line[i], NULL, NULL);
 		}
 		else if (line[i] == '|')
 			count++;
@@ -94,33 +99,44 @@ int	operator_count(char *line)
 // je compte les operateurs pour savoir combien d'espace je vais ajouter pour
 // le nouveau malloc de la ligne.
 
-void	add_space(char *line)
+void	create_new_line(char *line, char *new_line)
 {
-	char	*new_line;
-	int		i;
-	int		i_nl;
+	int	i;
+	int	i_nl;
 
-	i_nl = 0;
 	i = 0;
-	new_line = (char *)ft_calloc(ft_strlen(line) + 2 * operator_count(line), 1);
-	if (!new_line)
-		return ; 		// error a fix
+	i_nl = 0;
 	while (line[i])
 	{
 		if (line[i] == '"' || line[i] == 39)
 		{
-			i += quote(&line[i]);
+			new_line[i_nl] = line[i];
+			i += quote(line, new_line, &i_nl);
+			new_line[i_nl++] = line[i++];
 		}
-		else if (line[i] == '|')
-			count++;
-		else if (line[i] == '<' || line[i] == '>')
+		else if (special_caracter(&line[i]) > 2)
 		{
+			new_line[i_nl++] = ' ';
+			new_line[i_nl++] = line[i];
 			if (line[i] == line[i + 1])
-				i++;
-			count++;
+				new_line[i_nl++] = line[i++];
+			new_line[i_nl++] = ' ';
 		}
-		i++;
+		else
+			new_line[i_nl++] = line[i++];
 	}
+	new_line[i_nl] = '\0';
+}
+
+void	add_space(char *line)
+{
+	char	*new_line;
+
+	new_line = (char *)ft_calloc(ft_strlen(line) + 2 * operator_count(line), 1);
+	if (!new_line)
+		return ; 		// error a fix
+	create_new_line(line, new_line);
+	printf("string = %s\n", new_line);
 }
 
 // j'ajoute des espaces entres chaques operateurs pour que le split ce passe bien
@@ -130,8 +146,7 @@ void	parsing(char *line)
 {
 	if (!line || !line[0])
 		return ;
-	//add_space(line);
-	printf("nb operateur = %d\n line = %s", operator_count(line), line);
+	add_space(line);
 }
 
 
