@@ -6,7 +6,7 @@
 /*   By: avaldin <avaldin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 10:58:26 by avaldin           #+#    #+#             */
-/*   Updated: 2024/03/20 14:21:00 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/03/20 15:57:29 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,24 +151,46 @@ redirection a faire attention entre mauvais fichier et parse error near '...'
 
 void	pars_section(char *line, int len, t_section *first)
 {
+	t_section	*new_sect;
+	int			i;
 
+	i = 0;
+	new_sect = ft_calloc(1, sizeof(t_section));
+	if (!new_sect)
+		return ;  // pas ok
+	while (line[i])
+	{
+		if (line[i] == '<' || line[i] == '>')
+		{
+			line = redirect(new_sect, &line[i]);
+			i = 0;
+		}
+		else
+			i++;
+	}
 }
 
-char *str_cut(char *line, int len)
+char *str_cut(char *line, int start, int end)
 {
 	int i;
 	char *new_line;
 
 	i = 0;
-	new_line = ft_calloc(ft_strlen(line) - len, sizeof(char));
+	new_line = ft_calloc(ft_strlen(line) - end + start + 1, sizeof(char));
 	if (!new_line)
 	{
 		free(line);
 		return (NULL);
 	}
-	while (line[i + len + 1])
+	while (i < start)
 	{
-		new_line[i] = line[i + len + 1];
+		new_line[i] = line[start + i];
+		i++;
+	}
+	i = 0;
+	while (line[end + i] && line[end + i + 1])
+	{
+		new_line[start + i] = line[end + i + 1];
 		i++;
 	}
 	new_line[i] = '\0';
@@ -192,15 +214,15 @@ t_section *parsing(char *line)
 			i++;
 		}
 		//pars_section(line, i, first);     //calloc
-		printf("avant = %s\n", line);
+		printf("avant : %s\n", line);
 		if (!line[i])
 		{
 			free(line);
 			line = NULL;
 		}
 		else
-			line = str_cut(line, i);    //calloc
-		printf("apres = %s\n\n\n", line);
+			line = str_cut(line, 0, i);    //calloc
+		printf("apres : %s\n\n\n", line);
 	}
 	return (first);
 }
