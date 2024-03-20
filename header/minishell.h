@@ -33,6 +33,10 @@ size_t		ft_strlen(const char *str);
 char		*ft_strdup(const char *s);
 void		ft_lstadd_back(t_section **lst, t_section *new);
 t_section	*ft_lstlast(t_section *lst);
+int			skip_quote(char *line);
+int			red_length(char *line);
+
+
 
 
 #endif
