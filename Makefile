@@ -6,7 +6,7 @@
 #    By: avaldin <avaldin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/07 15:30:58 by avaldin           #+#    #+#              #
-#    Updated: 2024/03/19 11:26:38 by avaldin          ###   ########.fr        #
+#    Updated: 2024/03/20 12:41:04 by avaldin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,9 @@ OBJ_PATH	=	.obj/
 SOURCES		=	main_parsing.c\
 				ft_calloc.c\
 				ft_strlen.c\
+				ft_strdup.c\
+				ft_lstadd_back.c\
+				ft_lstlast.c\
 				main.c\
 
 
