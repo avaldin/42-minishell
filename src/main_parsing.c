@@ -6,7 +6,7 @@
 /*   By: avaldin <avaldin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 10:58:26 by avaldin           #+#    #+#             */
-/*   Updated: 2024/03/20 16:02:30 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/03/21 16:24:39 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	red_length(char *line)
 	int i;
 
 	len = 0;
+	i = 0;
 	while (line[i] && (line[i] == ' ' || line[i] == '	'))
 		i++;
 	while (line[i] && !(line[i] == ' ' || line[i] == '	'))
@@ -76,6 +77,7 @@ void	red_fill(char *line, char *redirect)
 {
 	int i;
 
+	i = 0;
 	while (line[i] && (line[i] == ' ' || line[i] == '	'))
 		i++;
 	while (line[i] && !(line[i] == ' ' || line[i] == '	'))
@@ -90,7 +92,7 @@ void	red_fill(char *line, char *redirect)
 	redirect[i] = '\0';
 }
 
-char *str_cut(char *line, int start, int end)
+char *str_cut(char *line, int start, int end, char *to_free)
 {
 	int i;
 	char *new_line;
@@ -98,10 +100,7 @@ char *str_cut(char *line, int start, int end)
 	i = 0;
 	new_line = ft_calloc(ft_strlen(line) - end + start + 1, sizeof(char));
 	if (!new_line)
-	{
-		free(line);
-		return (NULL);
-	}
+		exit(3); //pas ok
 	while (i < start)
 	{
 		new_line[i] = line[start + i];
@@ -114,11 +113,12 @@ char *str_cut(char *line, int start, int end)
 		i++;
 	}
 	new_line[i] = '\0';
-	free(line);
+	printf("i = %d\n", i);
+	free(to_free);
 	return (new_line);
 }
 
-char *redirect(t_section *new_sect, char *line)
+char *redirect(t_section *new_sect, char *line, char *to_free)
 {
 	char	*redirect;
 	int		red_count;
@@ -137,7 +137,7 @@ char *redirect(t_section *new_sect, char *line)
 	else
 		redirect[0] = 10 * red_count;
 	red_fill(&line[1], redirect);
-	line = str_cut(line, 0, red_length(&line[red_count]) + 2);
+	line = str_cut(line, 0, red_length(&line[red_count]) + 2, to_free);
 	return(line);
 }
 
@@ -150,23 +150,28 @@ void	pars_section(char *line, int len, t_section *first)
 {
 	t_section	*new_sect;
 	int			i;
-	(void)len;
+
 	(void)first;
 	i = 0;
 	new_sect = ft_calloc(1, sizeof(t_section));
 	if (!new_sect)
 		return ;  // pas ok
-	while (line[i])
+	while (line[i] && i < len)
 	{
 		if (line[i] == '"' || line[i] == 39)
 			i += skip_quote(&line[i]) + 2;
 		else if (line[i] == '<' || line[i] == '>')
 		{
-			line = redirect(new_sect, &line[i]);
+			line = redirect(new_sect, &line[i], line);
 			i = 0;
 		}
 		else
 			i++;
+		if (!ft_strlen(line))
+		{
+			printf("NULL\n");
+			line = NULL;
+		}
 	}
 	//cleaning_cmd(new_sect, line);
 	//ft_lstadd_back(&first, new_sect);
@@ -191,13 +196,16 @@ t_section *parsing(char *line)
 		}
 		printf("avant %s\n", line);
 		pars_section(line, i, first);     //calloc
-		if (!line || !line[i])
+		if (!line)
 		{
 			//free(line);
 			line = NULL;
 		}
 		else
-			line = str_cut(line, 0, i);    //calloc
+		{
+			printf("avant strcut : %s\n", line);
+			line = str_cut(line, 0, i, line);    //calloc
+		}
 		printf("apres %s\n", line);
 	}
 	return (first);
