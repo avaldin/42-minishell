@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast.c                                       :+:      :+:    :+:   */
+/*   pars_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avaldin <avaldin@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: avaldin <avaldin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/18 13:51:25 by avaldin           #+#    #+#             */
-/*   Updated: 2023/11/18 13:51:25 by avaldin          ###   ########.fr       */
+/*   Created: 2024/03/22 14:53:12 by avaldin           #+#    #+#             */
+/*   Updated: 2024/03/22 14:56:10 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-t_section	*ft_lstlast(t_section *lst)
-{
-	if (!lst)
-		return (NULL);
-	while (lst->next)
-		lst = lst->next;
-	return (lst);
-}
+//void	cleaning_cmd(t_section *new_sect, char *line)
+//{
+//	int		i;
+//	char	*cmd
+//
+//	i = 0;
+//	while (line[i] == ' ' || line[i] == '	')
+//		i++;
+//
+//}

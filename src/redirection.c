@@ -6,18 +6,31 @@
 /*   By: avaldin <avaldin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 10:01:56 by avaldin           #+#    #+#             */
-/*   Updated: 2024/03/22 11:28:05 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/03/22 16:46:16 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
+int red_count(char *line)
+{
+	int	i;
+	int count;
 
-
-//int red_count(char *line)
-//{
-//
-//}
+	i = 0;
+	count = 0;
+	while (line[i] && line[i] != '|')
+	{
+		if (line[i] == '>' || line[i] == '<')
+		{
+			if (line[i] == line[i + 1])
+				i++;
+			count++;
+		}
+		i++;
+	}
+	return (count);
+}
 
 int	red_length(char *line)
 {
@@ -28,7 +41,7 @@ int	red_length(char *line)
 	i = 0;
 	while (line[i] && (line[i] == ' ' || line[i] == '	'))
 		i++;
-	while (line[i] && !(line[i] == ' ' || line[i] == '	'))
+	while (line[i] && !(line[i] == ' ' || line[i] == '	' || line[i] == '<' || line[i] == '>' || line[i] == '|'))
 	{
 		if (line[i] == '"' || line[i] == 39)
 		{
@@ -51,11 +64,11 @@ int	red_fill(char *line, char *redirect)
 	i = 0;
 	while (line[i] && (line[i] == ' ' || line[i] == '	'))
 		i++;
-	while (line[i] && !(line[i] == ' ' || line[i] == '	' || line[i] == '<' || line[i] =='>'))
+	while (line[i] && !(line[i] == ' ' || line[i] == '	' || line[i] == '<' || line[i] == '>' || line[i] == '|'))
 	{
 		if (line[i] == '"' || line[i] == 39)
 		{
-			i_red += write_quote(line, redirect);
+			i_red += write_quote(&line[i], &redirect[i_red]);
 			i += skip_quote(&line[i]) + 1;
 		}
 		else
@@ -66,7 +79,7 @@ int	red_fill(char *line, char *redirect)
 	return (i);
 }
 
-int redirect(t_section *new_sect, char *line)
+int redirect(t_red *red, t_red **first, char *line)
 {
 	char	*redirect;
 	int		red_count;
@@ -79,11 +92,33 @@ int redirect(t_section *new_sect, char *line)
 	if (!redirect)
 		exit(4); // pas ok
 	if (line[0] == '<')
-		new_sect->dir = 1 * red_count;
+		red->direction = 1 * red_count;
 	else
-		new_sect->dir = 10 * red_count;
+		red->direction = 10 * red_count;
 	i = red_fill(&line[1], redirect);
-	printf("redirect = : %s\n", redirect);
-	new_sect->redirect = redirect;
+	red->file = redirect;
+	ft_redadd_back(first, red);
 	return(i);
+}
+
+t_red	**pars_red(char *line, t_red **first_red)
+{
+	int 	i;
+	t_red	*red;
+
+	i = 0;
+	while (line[i] && line[i] != '|')
+	{
+		if (line[i] == '"' || line[i] == 39)
+			i += skip_quote(&line[i]) + 2;
+		else if (line[i] == '<' || line[i] == '>')
+		{
+			red = ft_calloc(1, sizeof(t_red));
+			line = str_cut(line, i, i + redirect(red, first_red, &line[i]));
+			i = 0;
+		}
+		else
+			i++;
+	}
+	return (first_red);
 }

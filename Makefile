@@ -6,7 +6,7 @@
 #    By: avaldin <avaldin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/07 15:30:58 by avaldin           #+#    #+#              #
-#    Updated: 2024/03/20 12:41:04 by avaldin          ###   ########.fr        #
+#    Updated: 2024/03/22 16:34:21 by avaldin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,8 +30,8 @@ SOURCES		=	ft_calloc.c\
 				ft_strlen.c\
 				ft_strdup.c\
 				ft_lstadd_back.c\
-				ft_lstlast.c\
 				main.c\
+				pars_cmd.c\
 				main_parsing.c\
 				redirection.c\
 				parsing_tools.c\
