@@ -6,7 +6,7 @@
 /*   By: avaldin <avaldin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 10:33:07 by avaldin           #+#    #+#             */
-/*   Updated: 2024/03/20 12:41:04 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/03/22 10:53:30 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
 typedef struct s_section
 {
 	char 				**cmd;
-	char 				**redirect;
+	char 				*redirect;
+	int 				dir;
 	struct s_section	*next;
 }						t_section;
 
@@ -34,7 +35,11 @@ char		*ft_strdup(const char *s);
 void		ft_lstadd_back(t_section **lst, t_section *new);
 t_section	*ft_lstlast(t_section *lst);
 int			skip_quote(char *line);
-int			red_length(char *line);
+int			redirect(t_section *new_sect, char *line);
+char 		*str_cut(char *line, int start, int end);
+int 		write_quote(char *line, char *dest);
+
+
 
 
 

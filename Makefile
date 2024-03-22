@@ -33,6 +33,8 @@ SOURCES		=	ft_calloc.c\
 				ft_lstlast.c\
 				main.c\
 				main_parsing.c\
+				redirection.c\
+				parsing_tools.c\
 
 
 HEADER		=	header/minishell.h
