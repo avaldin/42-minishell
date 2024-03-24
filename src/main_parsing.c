@@ -6,22 +6,22 @@
 /*   By: avaldin <avaldin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 10:58:26 by avaldin           #+#    #+#             */
-/*   Updated: 2024/03/22 16:52:17 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/03/24 10:15:22 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-char	*pars_section(char *line, t_section *first)
+char	*pars_section(char *line, t_section **first)
 {
 	t_section	*new_sect;
 
 	new_sect = ft_calloc(1, sizeof(t_section));
 	if (!new_sect)
 		return (NULL);  // pas ok
-	pars_red(line, new_sect->first_red);
-	//cleaning_cmd(new_sect, line);
-	ft_sectadd_back(&first, new_sect);
+	line = pars_red(line, new_sect);
+	cleaning_cmd(new_sect, line);
+	*first = ft_sectadd_back(*first, new_sect);
 	return (line);
 }
 
@@ -35,7 +35,7 @@ t_section *parsing(char *line)
 	first = NULL;
 	while (line)
 	{
-		line = pars_section(line, first);     //calloc
+		line = pars_section(line, &first);     //calloc
 		i = 0;
 		while (line && line[i] != '|')
 		{

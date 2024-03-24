@@ -6,7 +6,7 @@
 #    By: avaldin <avaldin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/07 15:30:58 by avaldin           #+#    #+#              #
-#    Updated: 2024/03/22 16:34:21 by avaldin          ###   ########.fr        #
+#    Updated: 2024/03/24 09:49:27 by avaldin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SOURCES		=	ft_calloc.c\
 				main_parsing.c\
 				redirection.c\
 				parsing_tools.c\
+				data_clear.c\
 
 
 HEADER		=	header/minishell.h

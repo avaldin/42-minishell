@@ -6,7 +6,7 @@
 /*   By: avaldin <avaldin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 10:01:56 by avaldin           #+#    #+#             */
-/*   Updated: 2024/03/22 16:46:16 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/03/24 10:21:50 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,11 @@ int	red_fill(char *line, char *redirect)
 			redirect[i_red++] = line[i];
 		i++;
 	}
-	redirect[i] = '\0';
+	redirect[i_red] = '\0';
 	return (i);
 }
 
-int redirect(t_red *red, t_red **first, char *line)
+int redirect(t_red *red, char *line)
 {
 	char	*redirect;
 	int		red_count;
@@ -92,21 +92,22 @@ int redirect(t_red *red, t_red **first, char *line)
 	if (!redirect)
 		exit(4); // pas ok
 	if (line[0] == '<')
-		red->direction = 1 * red_count;
+		red->direction = -1 * red_count;
 	else
-		red->direction = 10 * red_count;
-	i = red_fill(&line[1], redirect);
+		red->direction = red_count;
+	i = red_fill(&line[red_count], redirect) + red_count - 1;
 	red->file = redirect;
-	ft_redadd_back(first, red);
 	return(i);
 }
 
-t_red	**pars_red(char *line, t_red **first_red)
+char	*pars_red(char *line, t_section *sect)
 {
 	int 	i;
 	t_red	*red;
+	t_red	*first_red;
 
 	i = 0;
+	first_red = NULL;
 	while (line[i] && line[i] != '|')
 	{
 		if (line[i] == '"' || line[i] == 39)
@@ -114,11 +115,13 @@ t_red	**pars_red(char *line, t_red **first_red)
 		else if (line[i] == '<' || line[i] == '>')
 		{
 			red = ft_calloc(1, sizeof(t_red));
-			line = str_cut(line, i, i + redirect(red, first_red, &line[i]));
+			line = str_cut(line, i, i + redirect(red, &line[i]));
 			i = 0;
+			first_red = ft_redadd_back(first_red, red);
 		}
 		else
 			i++;
 	}
-	return (first_red);
+	sect->first_red = first_red;
+	return (line);
 }
