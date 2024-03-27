@@ -6,7 +6,7 @@
 /*   By: avaldin <avaldin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 10:33:07 by avaldin           #+#    #+#             */
-/*   Updated: 2024/03/24 10:32:26 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/03/27 12:04:15 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@
 # include <stdlib.h>
 # include <stdint.h>
 # include <stdio.h>
+# include <signal.h>
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+
 
 typedef struct s_redirection
 {
@@ -37,7 +42,6 @@ typedef struct s_data
 	struct s_section	*first;
 }						t_data;
 
-enum special_c {NONE, QUOTE, DOUBLE_QUOTE, LEFT_BRACKET, RIGHT_BRACKET, PIPE, DOUBLE_PIPE, DOUBLE_RIGHT_BRACKET, DOUBLE_LEFT_BRACKET};
 
 t_section	*parsing(char *line);
 void		*ft_calloc(size_t nmemb, size_t size);
@@ -52,6 +56,10 @@ char		*pars_red(char *line, t_section *sect);
 void		ft_sectclear(t_section *lst);
 void		ft_redclear(t_red *lst);
 void		cleaning_cmd(t_section *sect, char *line);
+char		*envvar_pars(char *line, char **env);
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
+char		*ft_strjoin(char const *s1, char const *s2);
+
 
 
 
