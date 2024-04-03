@@ -6,7 +6,7 @@
 /*   By: avaldin <avaldin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 10:33:07 by avaldin           #+#    #+#             */
-/*   Updated: 2024/03/27 12:04:15 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/03/29 10:39:23 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_section
 typedef struct s_data
 {
 	struct s_section	*first;
+	struct sigaction	*sa;
 }						t_data;
 
 
@@ -59,6 +60,8 @@ void		cleaning_cmd(t_section *sect, char *line);
 char		*envvar_pars(char *line, char **env);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 char		*ft_strjoin(char const *s1, char const *s2);
+void 		sig_quit(void);
+void 		sig_int(void);
 
 
 

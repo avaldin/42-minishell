@@ -6,7 +6,7 @@
 /*   By: avaldin <avaldin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 10:33:16 by avaldin           #+#    #+#             */
-/*   Updated: 2024/03/27 15:37:03 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/03/29 13:14:25 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,23 @@ int	main(void)
 {
 	t_data	*data;
 	char *line;
-//	struct sigaction sa;
 
 	data = ft_calloc(1, sizeof(t_data));
 	if (!data)
 		return (1);
-//	sa.sa_handler = &
+	sig_int();
+	sig_quit();
 	while (42)
 	{
-		line = readline("balance ta commande bg >>");
-		printf("c = %s = c\n", line);
+		line = readline("balance ta commande bg >> ");
+		if (!line)
+		{
+			rl_clear_history();
+			free(data->sa);
+			free(data);
+			exit(12); // pas ok
+		}
+		add_history(line);
 		data->first = parsing(line);
 		print_pars(data->first);
 		ft_sectclear(data->first);

@@ -6,7 +6,7 @@
 #    By: avaldin <avaldin@student.42lyon.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/07 15:30:58 by avaldin           #+#    #+#              #
-#    Updated: 2024/03/27 10:33:33 by avaldin          ###   ########.fr        #
+#    Updated: 2024/03/29 13:14:25 by avaldin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SOURCES		=	ft_calloc.c\
 				envvar_pars.c\
 				ft_strncmp.c\
 				ft_strjoin.c\
+				signal.c\
 
 
 HEADER		=	header/minishell.h

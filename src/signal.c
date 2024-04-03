@@ -1,50 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   data_clear.c                                       :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avaldin <avaldin@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/24 12:46:30 by avaldin           #+#    #+#             */
-/*   Updated: 2024/03/29 10:58:21 by avaldin          ###   ########.fr       */
+/*   Created: 2024/03/29 13:07:34 by avaldin           #+#    #+#             */
+/*   Updated: 2024/03/29 13:14:25 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-void	ft_redclear(t_red *lst)
+void	handle_sig(int sig)
 {
-	if (lst)
+	if (sig == SIGINT)
 	{
-		ft_redclear(lst->next);
-		free(lst->file);
-		free(lst);
-		lst = NULL;
+		rl_on_new_line();
+		rl_replace_line("", 1);
+		printf("\n");
+		rl_redisplay();
 	}
 }
 
-void	cmd_clear(char **cmd)
+void sig_int(void)
 {
-	int i;
+	struct sigaction	sa;
 
-	i = 0;
-	while (cmd[i])
-	{
-		free(cmd[i]);
-		i++;
-	}
-	free(cmd);
+	sa.sa_handler = &handle_sig;
+	sigaction(SIGINT, &sa, NULL);
 }
 
-void	ft_sectclear(t_section *lst)
+void sig_quit(void)
 {
-	if (lst)
-	{
-		if (lst->next)
-			ft_sectclear(lst->next);
-		ft_redclear(lst->first_red);
-		cmd_clear(lst->cmd);
-		free(lst);
-		lst = NULL;
-	}
+	struct sigaction	sa;
+
+	sa.sa_handler = SIG_IGN;
+	sigaction(SIGQUIT, &sa, NULL);
 }
