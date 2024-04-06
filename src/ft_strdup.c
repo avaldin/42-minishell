@@ -12,24 +12,40 @@
 
 #include "../header/minishell.h"
 
-char	*ft_strdup(const char *s)
+char	*ft_strdup(const char *s, int start, int len)
 {
-	int		len;
 	int		i;
 	char	*str;
 
 	if (!s)
 		return (NULL);
-	len = ft_strlen((char *)s);
-	i = 0;
-	str = malloc((len + 1) * sizeof(char));
+	if (len != -1)
+		str = ft_calloc((ft_strlen((char *)s) - start + 1), sizeof(char));
+	else
+		str = ft_calloc(len, sizeof(char));
 	if (!str)
 		return (NULL);
-	while (s[i])
+	i = - 1;
+	while (s[++i + start] && len--)
+		str[i] = s[i + start];
+	str[i] = '\0';
+	return (str);
+}
+
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	if (n == 0)
+		return (0);
+	while (s1[i] && i < n)
 	{
-		str[i] = s[i];
+		if (s1[i] != s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 		i++;
 	}
-	str[i] = '\0';
-	return (&str[0]);
+	if (i < n)
+		return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	return (0);
 }

@@ -38,3 +38,6 @@ void sig_quit(void)
 	sa.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &sa, NULL);
 }
+
+
+// s'occuper de la fleche du haut qui remonte l'historique

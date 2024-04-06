@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: avaldin <avaldin@student.42lyon.fr>        +#+  +:+       +#+         #
+#    By: avaldin <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/07 15:30:58 by avaldin           #+#    #+#              #
-#    Updated: 2024/03/29 13:14:25 by avaldin          ###   ########.fr        #
+#    Updated: 2024/04/06 14:06:14 by avaldin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,10 +36,8 @@ SOURCES		=	ft_calloc.c\
 				redirection.c\
 				parsing_tools.c\
 				data_clear.c\
-				envvar_pars.c\
-				ft_strncmp.c\
-				ft_strjoin.c\
 				signal.c\
+				pars_var.c\
 
 
 HEADER		=	header/minishell.h

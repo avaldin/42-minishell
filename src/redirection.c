@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avaldin <avaldin@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 10:01:56 by avaldin           #+#    #+#             */
-/*   Updated: 2024/03/24 10:21:50 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/06 15:02:31 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int red_count(char *line)
 	return (count);
 }
 
-int	red_length(char *line)
+int	red_length(char *line, char **env)
 {
 	int len;
 	int i;
@@ -55,7 +55,7 @@ int	red_length(char *line)
 	return (len);
 }
 
-int	red_fill(char *line, char *redirect)
+int	red_fill(char *line, char *redirect, char **env)
 {
 	int i;
 	int i_red;
@@ -79,7 +79,7 @@ int	red_fill(char *line, char *redirect)
 	return (i);
 }
 
-int redirect(t_red *red, char *line)
+int extract_red(t_red *red, char *line)
 {
 	char	*redirect;
 	int		red_count;
@@ -96,7 +96,7 @@ int redirect(t_red *red, char *line)
 	else
 		red->direction = red_count;
 	i = red_fill(&line[red_count], redirect) + red_count - 1;
-	red->file = redirect;
+	red->file[0] = redirect;
 	return(i);
 }
 
@@ -115,7 +115,7 @@ char	*pars_red(char *line, t_section *sect)
 		else if (line[i] == '<' || line[i] == '>')
 		{
 			red = ft_calloc(1, sizeof(t_red));
-			line = str_cut(line, i, i + redirect(red, &line[i]));
+			line = str_cut(line, i, i + extract_red(red, &line[i]));
 			i = 0;
 			first_red = ft_redadd_back(first_red, red);
 		}
@@ -124,4 +124,14 @@ char	*pars_red(char *line, t_section *sect)
 	}
 	sect->first_red = first_red;
 	return (line);
+}
+
+void	redirection(t_section *first, char **env)
+{
+	t_section *sect;
+
+	while (sect)
+	{
+
+	}
 }
