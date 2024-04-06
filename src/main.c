@@ -40,7 +40,8 @@ void	print_pars(t_section *first)
 			red = red->next;
 			j++;
 		}
-		printf("%s\n", sect->pipe);
+		if (sect->pipe)
+			printf("%s\n", sect->pipe);
 
 		i++;
 		printf("\n       ----------------------          \n");

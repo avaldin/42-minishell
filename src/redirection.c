@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 10:01:56 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/06 15:37:32 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/06 16:26:59 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	red_length(char *line)
 }
 
 
-void	extract_red(t_red *red, char *line)
+int	extract_red(t_red *red, char *line)
 {
 	char	*redirect;
 	int		red_count;
@@ -56,35 +56,57 @@ void	extract_red(t_red *red, char *line)
 		i++;
 	redirect = ft_strdup(line, i, red_length(&line[red_count]));
 	red->file[0] = redirect;
+	return (i + red_length(&line[red_count]));
 }
 
-char	*pars_red(char *line, t_section *sect)
+void	create_red(char *line, t_section *sect)
 {
 	int 	i;
 	t_red	*red;
-	t_red	*first_red;
 
 	i = 0;
-	first_red = NULL;
-	while (line[i])
+	sect->first_red = NULL;
+	while (line && line[i])
 	{
 		if (line[i] == '"' || line[i] == 39)
-			i += skip_quote(&line[i]) + 1;
+			i += skip_quote(&line[i]) + 2;
 		else if (line[i] == '<' || line[i] == '>')
 		{
 			red = ft_calloc(1, sizeof(t_red));
 			if (!red)
-				return (NULL); // pas ok
+				exit(16); // pas ok
 			red->file = ft_calloc(3, sizeof(char *));
 			if (!red->file)
-				return (NULL); // pas ok
-			extract_red(red, &line[i]);
-			first_red = ft_redadd_back(first_red, red);
+				exit(31); // pas ok
+			line = str_cut(line, i, i + extract_red(red, &line[i]) - 1);
+			i = 0;
+			sect->first_red = ft_redadd_back(sect->first_red, red);
 		}
-		i++;
+		else
+			i++;
 	}
-	sect->first_red = first_red;
-	return (line);
+	sect->pipe = line;
+}
+
+void	quote_expender(t_section *sect)
+{
+	t_red	*red;
+	int		i;
+	int 	j;
+
+	red = sect->first_red;
+
+	while (red)
+	{
+		i = 0;
+		j = 0;
+		red->temp = ft_calloc()
+		while (red->file[0][i])
+		{
+			if (red->file[0][i] == '"' || red->file[0][i] == 39)
+
+		}
+	}
 }
 
 void	redirection(t_section *first, char **env)
@@ -96,7 +118,10 @@ void	redirection(t_section *first, char **env)
 	sect = first;
 	while (sect)
 	{
-		pars_red(sect->pipe, sect);
+		create_red(sect->pipe, sect);
+		quote_expender(sect);
+//		process_env(sect);
+//		red_union();
 		sect = sect->next;
 	}
 }

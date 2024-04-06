@@ -47,32 +47,32 @@ int write_quote(char *line, char *dest)
 
 }
 
-//char *str_cut(char *line, int start, int end)
-//{
-//	int i;
-//	char *new_line;
-//
-//	i = 0;
-//	if (ft_strlen(line) - end + start == 0)
-//		return (free(line), NULL);
-//	new_line = ft_calloc(ft_strlen(line) - end + start + 1, sizeof(char));
-//	if (!new_line)
-//		exit(3); //pas ok
-//	while (i < start)
-//	{
-//		new_line[i] = line[i];
-//		i++;
-//	}
-//	i = 0;
-//	while (line[end + i] && line[end + i + 1])
-//	{
-//		new_line[start + i] = line[end + i + 1];
-//		i++;
-//	}
-//	new_line[start + i] = '\0';
-//	free(line);
-//	return (new_line);
-//}
+char *str_cut(char *line, int start, int end)
+{
+	int i;
+	char *new_line;
+
+	i = 0;
+	if (ft_strlen(line) - end + start == 0)
+		return (free(line), NULL);
+	new_line = ft_calloc(ft_strlen(line) - end + start + 1, sizeof(char));
+	if (!new_line)
+		exit(3); //pas ok
+	while (i < start)
+	{
+		new_line[i] = line[i];
+		i++;
+	}
+	i = 0;
+	while (line[end + i] && line[end + i + 1])
+	{
+		new_line[start + i] = line[end + i + 1];
+		i++;
+	}
+	new_line[start + i] = '\0';
+	free(line);
+	return (new_line);
+}
 
 //char	*find_var(char *name, char **env)
 //{
