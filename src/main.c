@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 10:33:16 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/06 14:50:37 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/06 15:31:44 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,32 +15,33 @@
 void	print_pars(t_section *first)
 {
 	t_section	*sect;
-//	t_red		*red;
+	t_red		*red;
 	int 		i = 1;
-//	int 		j;
+	int 		j;
 //	int 		k;
 
 	sect = first;
 	while (sect)
 	{
 		printf("\n           section %d\n\n", i);
-//		j = 1;
+		j = 1;
 //		k = 0;
-//		red = sect->first_red;
+		red = sect->first_red;
 //		printf("\ncmd = ");
 //		while (sect->cmd[k])
 //		{
 //			printf("arg %d = %s;    ", k, sect->cmd[k]);
 //			k++;
 //		}
-//		printf("\n");
-//		while (red)
-//		{
-//			printf("\nredirection %d\n\nred name = %s\ndirection = %d\n", j, red->file, red->direction);
-//			red = red->next;
-//			j++;
+		printf("\n");
+		while (red)
+		{
+			printf("\nredirection %d\n\nred name = %s\ndirection = %d\n", j, red->file[0], red->direction);
+			red = red->next;
+			j++;
+		}
 		printf("%s\n", sect->pipe);
-//		}
+
 		i++;
 		printf("\n       ----------------------          \n");
 		sect = sect->next;
