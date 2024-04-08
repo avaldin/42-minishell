@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 10:01:56 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/06 16:26:59 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/08 10:44:44 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,26 +88,6 @@ void	create_red(char *line, t_section *sect)
 	sect->pipe = line;
 }
 
-void	quote_expender(t_section *sect)
-{
-	t_red	*red;
-	int		i;
-	int 	j;
-
-	red = sect->first_red;
-
-	while (red)
-	{
-		i = 0;
-		j = 0;
-		red->temp = ft_calloc()
-		while (red->file[0][i])
-		{
-			if (red->file[0][i] == '"' || red->file[0][i] == 39)
-
-		}
-	}
-}
 
 void	redirection(t_section *first, char **env)
 {
@@ -120,7 +100,7 @@ void	redirection(t_section *first, char **env)
 	{
 		create_red(sect->pipe, sect);
 		quote_expender(sect);
-//		process_env(sect);
+		process_var(sect, env);
 //		red_union();
 		sect = sect->next;
 	}

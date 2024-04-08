@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 10:33:07 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/06 15:53:35 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/08 09:46:55 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_redirection
 {
 	char					**file;
 	char					**temp;
+	int 					*protection;
 	int 					direction;
 	struct s_redirection	*next;
 }							t_red;
@@ -65,5 +66,6 @@ char		*find_var(char *name, char **env);
 char		*pars_var(char *line, char **env);
 char		*str_modify(char *str, int i, int len, char *add);
 void		redirection(t_section *first, char **env);
+void		quote_expender(t_section *sect);
 
 #endif

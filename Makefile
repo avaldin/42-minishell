@@ -38,6 +38,7 @@ SOURCES		=	ft_calloc.c\
 				data_clear.c\
 				signal.c\
 				pars_var.c\
+				quote_expender.c\
 
 
 HEADER		=	header/minishell.h
