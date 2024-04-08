@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 10:33:07 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/08 09:46:55 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/08 13:55:21 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_redirection
 	char					**file;
 	char					**temp;
 	int 					*protection;
+	int 					tmp_len;
 	int 					direction;
 	struct s_redirection	*next;
 }							t_red;
@@ -62,10 +63,10 @@ void		cleaning_cmd(t_section *sect, char *line);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 void 		sig_quit(void);
 void 		sig_int(void);
-char		*find_var(char *name, char **env);
-char		*pars_var(char *line, char **env);
+char		*find_var(char *name, char **env, int len);
 char		*str_modify(char *str, int i, int len, char *add);
 void		redirection(t_section *first, char **env);
 void		quote_expender(t_section *sect);
+void		process_var(t_section *first, char **env);
 
 #endif

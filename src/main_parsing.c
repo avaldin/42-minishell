@@ -84,7 +84,7 @@ t_section *parsing(char *line, char **env)
 	(void)env;
 //	i = 0;
 //	j = 0;
-//	if (cheaking(line, env))
+//	if (cheaking(line, env)) plein de truc a gerer dont $$ " ' >>> ...
 //		return (NULL);
 	first = create_section(line);
 	redirection(first, env);

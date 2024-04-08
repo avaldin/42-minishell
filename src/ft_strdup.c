@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avaldin <avaldin@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 09:16:03 by avaldin           #+#    #+#             */
-/*   Updated: 2023/11/13 09:16:03 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/08 10:43:07 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ char	*ft_strdup(const char *s, int start, int len)
 
 	if (!s || !len)
 		return (NULL);
-	if (len != -1)
+	if (len == -1)
 		str = ft_calloc((ft_strlen((char *)s) - start + 1), sizeof(char));
 	else
-		str = ft_calloc(len, sizeof(char));
+		str = ft_calloc(len + 1, sizeof(char));
 	if (!str)
 		return (NULL);
 	i = - 1;

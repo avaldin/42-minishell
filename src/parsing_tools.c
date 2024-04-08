@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 10:00:55 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/08 10:54:58 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/08 10:56:02 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,27 +73,6 @@ char *str_cut(char *line, int start, int end)
 	free(line);
 	return (new_line);
 }
-
-//char	*find_var(char *name, char **env)
-//{
-//	int 	i;
-//	int 	j;
-//	int 	len;
-//	char	*var;
-//
-//	i = 0;
-//	j = 0;
-//	len = 0;
-//	while ((name[len] < 91 && name[len] > 64) || (name[len] < 123 && name[len] > 96) || (name[len] < 58 && name[len] > 47))
-//		len++;
-//	while (env[i] && ft_strncmp(name, env[i], ft_strlen(name)))
-//		i++;
-//	if (!env[i])
-//		return (NULL);
-//	while (env[i][j] && env[i][j] != '=')
-//		j++;
-//	return (&env[i][j + 1]);
-//}
 
 char	*str_modify(char *str, int i, int len, char *add)  //prend une string, supprime ce qu'il y a a l'indice m sur une taille len, et ajoute la string add a l,indice i
 {
