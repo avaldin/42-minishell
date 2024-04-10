@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 10:01:56 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/10 14:15:41 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/10 17:05:56 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	redirection(t_section *first, char **env)
 		create_red(sect->pipe, sect);
 		quote_expender(sect);
 		process_var(sect, env);
-//		red_union();
+		red_union(sect);
 		sect = sect->next;
 	}
 }

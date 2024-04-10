@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 09:38:27 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/10 14:35:10 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/10 18:06:56 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	quote_count(char *line)
 {
-	int i;
-	int count;
+	int	i;
+	int	count;
 
 	i = 0;
 	count = 0;
@@ -51,14 +51,14 @@ void	temp_filling(t_red *red)
 				exit(44); //pas ok
 			red->protection[red->tmp_len++] = 2;
 			if (red->file[0][i] == '"')
-				red->protection[red->tmp_len- 1] = 1;
+				red->protection[red->tmp_len - 1] = 1;
 			i += write_quote(&red->file[0][i], red->temp[red->tmp_len - 1]) + 1;
 			j = i + 1;
 		}
 		i++;
 	}
 	if (i != j)
-		red->temp[red->tmp_len] = ft_strdup(red->file[0], j, i - j);
+		red->temp[red->tmp_len++] = ft_strdup(red->file[0], j, i - j);
 }
 
 void	quote_expender(t_section *sect)

@@ -68,5 +68,6 @@ char		*str_modify(char *str, int i, int len, char *add);
 void		redirection(t_section *first, char **env);
 void		quote_expender(t_section *sect);
 void		process_var(t_section *first, char **env);
+void		red_union(t_section *sect);
 
 #endif

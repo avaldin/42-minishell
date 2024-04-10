@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 10:33:16 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/10 10:14:40 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/10 15:51:40 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	print_pars(t_section *first)
 	int 		i = 1;
 	int 		j;
 //	int 		k;
-	int 		l = 0;
 
 	sect = first;
 	while (sect)
@@ -37,15 +36,7 @@ void	print_pars(t_section *first)
 		printf("\n");
 		while (red)
 		{
-			l = -1;
-			printf("\nredirection %d\n\nred name = %s\ndirection = %d\n", j, red->file[0], red->direction);
-			while (++l <= red->tmp_len)
-			{
-				if (red->temp)
-					printf("tmp %d = %s; protec = %d\n", l, red->temp[l], red->protection[l]);
-				else
-					printf("tmp vide\n");
-			}
+			printf("\nredirection %d  red return :%s\n\nred name = %s\ndirection = %d\n", j, red->file[1], red->file[0], red->direction);
 			red = red->next;
 			j++;
 		}

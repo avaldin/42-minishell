@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 10:00:55 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/08 10:56:02 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/10 15:37:28 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ char	*str_modify(char *str, int i, int len, char *add)  //prend une string, supp
 
 	if (!str)
 		return (add);
+	if (!add || !add[0])
+		return (str);
 	new_str = ft_calloc(ft_strlen(str) - len + ft_strlen(add) + 1, sizeof(char));
 	if (!new_str)
 		exit (24);   //pas ok
@@ -89,7 +91,7 @@ char	*str_modify(char *str, int i, int len, char *add)  //prend une string, supp
 	k = -1;
 	while (++j < i)
 		new_str[j] = str[j];
-	while (add && add[++k])
+	while (add[++k])
 		new_str[j + k] = add[k];
 	j--;
 	while (str[len + ++j])
