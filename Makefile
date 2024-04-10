@@ -40,6 +40,7 @@ SOURCES		=	ft_calloc.c\
 				pars_var.c\
 				quote_expender.c\
 				env_var.c\
+				union.c\
 
 
 HEADER		=	header/minishell.h

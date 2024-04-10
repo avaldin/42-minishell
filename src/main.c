@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 10:33:16 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/08 14:06:51 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/10 10:14:40 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,12 @@ void	print_pars(t_section *first)
 			l = -1;
 			printf("\nredirection %d\n\nred name = %s\ndirection = %d\n", j, red->file[0], red->direction);
 			while (++l <= red->tmp_len)
-				printf("tmp %d = %s;\n", l, red->temp[l]);
+			{
+				if (red->temp)
+					printf("tmp %d = %s; protec = %d\n", l, red->temp[l], red->protection[l]);
+				else
+					printf("tmp vide\n");
+			}
 			red = red->next;
 			j++;
 		}
@@ -78,7 +83,7 @@ int	main(int argc, char **argv, char **env)
 			free(data);
 			exit(12); // pas ok
 		}
-		//add_history();
+		add_history(line);
 		data->first = parsing(line, env);
 		print_pars(data->first);
 		//ft_sectclear(data->first);

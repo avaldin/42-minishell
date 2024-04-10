@@ -47,7 +47,7 @@ int write_quote(char *line, char *dest)
 
 }
 
-char *str_cut(char *line, int start, int end)
+char	*str_cut(char *line, int start, int end)
 {
 	int i;
 	char *new_line;
@@ -81,7 +81,7 @@ char	*str_modify(char *str, int i, int len, char *add)  //prend une string, supp
 	int 	k;
 
 	if (!str)
-		return (NULL);
+		return (add);
 	new_str = ft_calloc(ft_strlen(str) - len + ft_strlen(add) + 1, sizeof(char));
 	if (!new_str)
 		exit (24);   //pas ok

@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 09:38:27 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/08 11:24:03 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/10 14:35:10 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	quote_count(char *line)
 
 	i = 0;
 	count = 0;
+	if (!line)
+		return (0);
 	while (line[i])
 	{
 		if (line[i] == '"' || line[i] == 39)
