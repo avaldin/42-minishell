@@ -6,7 +6,7 @@
 #    By: avaldin <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/07 15:30:58 by avaldin           #+#    #+#              #
-#    Updated: 2024/04/15 09:36:56 by avaldin          ###   ########.fr        #
+#    Updated: 2024/04/15 12:20:09 by avaldin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,8 @@ SOURCES		=	ft_calloc.c\
 				env_var.c\
 				union.c\
 				checking.c\
+				cmd_split.c\
+
 
 
 
