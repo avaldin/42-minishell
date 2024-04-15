@@ -6,11 +6,50 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:53:12 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/15 12:19:24 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/15 14:53:34 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
+
+char	*add_quote(char *str, int protection)
+{
+	char	*new_str;
+
+	if (!protection)
+		return (str);
+	new_str = ft_calloc(ft_strlen(str) + 3, sizeof(char *));
+	if (!new_str)
+		exit (17);
+	if (protection == 1)
+	{
+		new_str[0] = '"';
+		&new_str[1] = ft_strdup(str, 0, -1);
+	}
+}
+
+void	cmd_union(t_section *sect)
+{
+	int 	i;
+	char	*cmd_union;
+
+	i = 0;
+	cmd_union = NULL;
+	while (i < sect->tmp_len && !cmd_union)
+	{
+		if (!sect->temp[i] || !sect->temp[i][0])
+			i++;
+		else
+			cmd_union = add_quote(sect->temp[i], sect->protection[i]);
+	}
+	i++;
+	while (i < red->tmp_len)
+	{
+		if (red->temp[i] && red->temp[i][0])
+			file = str_modify(file, (int)ft_strlen(file), 0, ft_strdup(red->temp[i],0, -1));
+		i++;
+	}
+}
 
 void	cmd_process_var(t_section *sect, char **env)
 {
@@ -87,8 +126,8 @@ void	command(t_section *first, char **env)
 		cmd_process_var(sect, env);
 		if (sect->temp)
 		{
-			cmd_split(sect);
-			//cmd_union(sect);
+			cmd_union(sect);
+
 		}
 		sect = sect->next;
 	}
