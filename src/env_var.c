@@ -89,7 +89,7 @@ void	check_var(t_red *red, char **env, int i)
 	}
 }
 
-void	process_var(t_section *first, char **env)
+void	red_process_var(t_section *first, char **env)
 {
 	t_section	*sect;
 	t_red		*red;

@@ -93,14 +93,12 @@ void	redirection(t_section *first, char **env)
 {
 	t_section *sect;
 
-	(void)env;
-
 	sect = first;
 	while (sect)
 	{
 		create_red(sect->pipe, sect);
-		quote_expender(sect);
-		process_var(sect, env);
+		red_quote_expender(sect);
+		red_process_var(sect, env);
 		red_union(sect);
 		sect = sect->next;
 	}

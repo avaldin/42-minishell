@@ -3,108 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   pars_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avaldin <avaldin@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:53:12 by avaldin           #+#    #+#             */
-/*   Updated: 2024/03/27 14:34:11 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/15 10:55:15 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int cmd_count(char *line)
+void	cmd_quote_expender(t_section *sect)
 {
-	int count;
-	int	i;
+	sect->temp = ft_calloc(2 * quote_count(sect->pipe) + 2, sizeof(char *));
+	if (!sect->temp)
+		exit (20) // pas ok
 
-	i = 0;
-	count = 0;
-	while (line[i] && line[i] != '|')
-	{
-		if (line[i] != ' ' && line[i] != '	')
-		{
-			count++;
-			while (line[i] && line[i] != ' ' && line[i] != '	')
-			{
-				if (line[i] == '"' || line[i] == 39)
-					i += skip_quote(&line[i]) + 1;
-				i++;
-			}
-		}
-		else
-			i++;
-	}
-	return (count);
 }
 
-int cmd_len(char *line)
+void	command(t_section *first, char **env)
 {
-	int i;
-	int len;
+	t_section	*sect;
+	char
 
-	i = 0;
-	len = 0;
-	while (line[i] && line[i] != '|' && line[i] != ' ' && line[i] != '	')
+	sect = first;
+	while (sect)
 	{
-		if (line[i] == '"' || line[i] == 39)
-		{
-			len += skip_quote(&line[i]);
-			i += skip_quote(&line[i]) + 2;
-		}
-		else
-		{
-			len++;
-			i++;
-		}
+		cmd_quote_expender(sect);
+		//cmd_process_var(sect, env);
+		//split espace chaque temp[i] sauf protec
+		//cmd_union(sect);
+		sect = sect->next;
 	}
-	return (len);
-}
-
-int add_cmd(char *line, char *cmd)
-{
-	int i;
-	int len;
-
-	i = 0;
-	len = 0;
-	while (line[i] && line[i] != '|' && line[i] != ' ' && line[i] != '	')
-	{
-		if (line[i] == '"' || line[i] == 39)
-		{
-			len += write_quote(&line[i], &cmd[len]);
-			i += skip_quote(&line[i]) + 2;
-		}
-		else
-		{
-			cmd[len] = line[i];
-			len++;
-			i++;
-		}
-	}
-	return (i);
-}
-
-void	cleaning_cmd(t_section *sect, char *line)
-{
-	int		i;
-	int 	i_cmd;
-	char	**cmd;
-
-	i = 0;
-	i_cmd = 0;
-	cmd = ft_calloc(cmd_count(line) + 1, sizeof(char *));
-	if (!cmd)
-		exit (10);  // pas ok
-	while (line[i] && line[i] != '|')
-	{
-		if (line[i] != ' ' && line[i] != '	')
-		{
-			cmd[i_cmd] = ft_calloc(cmd_len(&line[i]) + 1, sizeof(char));
-			i += add_cmd(&line[i], cmd[i_cmd]);
-			i_cmd++;
-		}
-		else
-			i++;
-	}
-	sect->cmd = cmd;
 }

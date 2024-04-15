@@ -61,7 +61,7 @@ void	temp_filling(t_red *red)
 		red->temp[red->tmp_len++] = ft_strdup(red->file[0], j, i - j);
 }
 
-void	quote_expender(t_section *sect)
+void	red_quote_expender(t_section *sect)
 {
 	t_red	*red;
 
