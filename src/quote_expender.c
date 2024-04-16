@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 09:38:27 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/16 16:56:47 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/16 16:58:10 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ int	quote_count(char *line)
 	return (count);
 }
 
-void	temp_filling(t_red *red)
+int	temp_filling(t_red *red)
 {
 	int	i;
 	int	j;
 
-	i = 0;
+	i = -1;
 	j = 0;
-	while (red->file[0][i])
+	while (red->file[0][++i])
 	{
 		if (red->file[0][i] == '"' || red->file[0][i] == 39)
 		{
@@ -48,18 +48,18 @@ void	temp_filling(t_red *red)
 				red->temp[red->tmp_len++] = ft_strdup(red->file[0], j, i - j);
 			red->temp[red->tmp_len] = ft_calloc(skip_quote(
 						&red->file[0][i]) + 1, sizeof(char));
-			if (!red->temp)
-				exit(44); //pas ok
+			if (!red->temp[red->tmp_len])
+				return (0);
 			red->protection[red->tmp_len++] = 2;
 			if (red->file[0][i] == '"')
 				red->protection[red->tmp_len - 1] = 1;
 			i += write_quote(&red->file[0][i], red->temp[red->tmp_len - 1]) + 1;
 			j = i + 1;
 		}
-		i++;
 	}
 	if (i != j)
 		red->temp[red->tmp_len++] = ft_strdup(red->file[0], j, i - j);
+	return (1);
 }
 
 void	red_quote_expender(t_section *sect)
@@ -72,12 +72,13 @@ void	red_quote_expender(t_section *sect)
 		red->temp = ft_calloc(2 * quote_count(red->file[0]) + 2,
 				sizeof(char *));
 		if (!red->temp)
-			exit(56); //pasok
+			clean_exit(sect->data);
 		red->protection = ft_calloc(2 * quote_count(red->file[0]) + 2,
 				sizeof(int));
 		if (!red->protection)
-			exit(76); //pas ok
-		temp_filling(red);
+			clean_exit(sect->data);
+		if (!temp_filling(red))
+			clean_exit(sect->data);
 		red = red->next;
 	}
 }

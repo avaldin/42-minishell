@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:20:59 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/16 16:45:52 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/16 17:47:26 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ char	*apply_var(char *token, char **env, int *i)
 		|| (token[*i + len_name + 1] < 123 && token[*i + len_name + 1] > 96)
 		|| (token[*i + len_name + 1] < 58 && token[*i + len_name + 1] > 47))
 		len_name++;
+	if (token[*i + 1] <= '9' && token[*i + 1] >= '0')
+		len_name = 1;
 	if (!len_name)
 		return ((*i)++, token);
 	var = find_var(&token[*i + 1], env, len_name);
@@ -85,7 +87,7 @@ void	check_var(t_red *red, char **env, int i)
 				&& red->protection[i] == 0)
 				red->temp[i] = str_cut(red->temp[i], j, j + 1);
 			else if (ambigous_var(red, env, i, j))
-				return ; // pas ok, faut gerer ca
+				return ;
 			else
 				red->temp[i] = apply_var(red->temp[i], env, &j);
 		}

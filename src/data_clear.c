@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data_clear.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avaldin <avaldin@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 12:46:30 by avaldin           #+#    #+#             */
-/*   Updated: 2024/03/29 10:58:21 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/16 16:43:15 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,10 @@ void	ft_sectclear(t_section *lst)
 		free(lst);
 		lst = NULL;
 	}
+}
+
+void	clean_exit(t_data *data)
+{
+	(void)data;
+	exit(66);
 }

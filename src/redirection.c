@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 10:01:56 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/16 17:01:16 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/16 17:04:06 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	red_length(char *line)
 	return (len);
 }
 
-int	extract_red(t_red *red, char *line)
+int	extract_red(t_red *red, char *line, t_data *data)
 {
 	char	*redirect;
 	int		red_count;
@@ -46,7 +46,7 @@ int	extract_red(t_red *red, char *line)
 		red_count = 2;
 	redirect = ft_calloc(red_length(&line[red_count]) + 1, sizeof(char));
 	if (!redirect)
-		exit(4); // pas ok
+		clean_exit(data);
 	if (line[0] == '<')
 		red->direction = -1 * red_count;
 	else
@@ -74,11 +74,11 @@ void	create_red(char *line, t_section *sect)
 		{
 			red = ft_calloc(1, sizeof(t_red));
 			if (!red)
-				exit(16); // pas ok
+				clean_exit(sect->data);
 			red->file = ft_calloc(3, sizeof(char *));
 			if (!red->file)
-				exit(31); // pas ok
-			line = str_cut(line, i, i + extract_red(red, &line[i]) - 1);
+				clean_exit(sect->data);
+			line = str_cut(line, i, i + extract_red(red, &line[i], sect->data) - 1);
 			i = 0;
 			sect->first_red = ft_redadd_back(sect->first_red, red);
 		}
@@ -88,11 +88,11 @@ void	create_red(char *line, t_section *sect)
 	sect->pipe = line;
 }
 
-void	redirection(t_section *first, char **env)
+void	redirection(t_data *data, char **env)
 {
 	t_section	*sect;
 
-	sect = first;
+	sect = data->first;
 	while (sect)
 	{
 		create_red(sect->pipe, sect);

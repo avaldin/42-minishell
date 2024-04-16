@@ -36,7 +36,7 @@ int	main(int argc, char **argv, char **env)
 			exit(12); // pas ok
 		}
 		add_history(line);
-		data->first = parsing(line, env);
+		parsing(line, env, data);
 		ft_sectclear(data->first);
 	}
 	free(data);
