@@ -23,7 +23,7 @@ void	handle_sig(int sig)
 	}
 }
 
-void sig_int(void)
+void	sig_int(void)
 {
 	struct sigaction	sa;
 
@@ -31,13 +31,10 @@ void sig_int(void)
 	sigaction(SIGINT, &sa, NULL);
 }
 
-void sig_quit(void)
+void	sig_quit(void)
 {
 	struct sigaction	sa;
 
 	sa.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &sa, NULL);
 }
-
-
-// s'occuper de la fleche du haut qui remonte l'historique

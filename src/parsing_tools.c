@@ -6,15 +6,15 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 10:00:55 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/10 15:37:28 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/16 16:53:50 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int skip_quote(char *line)
+int	skip_quote(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (line[i++] == '"')
@@ -26,31 +26,34 @@ int skip_quote(char *line)
 	return (i - 1);
 }
 
-int write_quote(char *line, char *dest)
+int	write_quote(char *line, char *dest)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (line[i++] == '"')
+	{
 		while (line[i] && line[i] != '"')
 		{
 			dest[i - 1] = line[i];
 			i++;
 		}
+	}
 	else
+	{
 		while (line[i] && line[i] != 39)  // a test
 		{
 			dest[i - 1] = line[i];
 			i++;
 		}
+	}
 	return (i - 1);
-
 }
 
 char	*str_cut(char *line, int start, int end)
 {
-	int i;
-	char *new_line;
+	int		i;
+	char	*new_line;
 
 	i = 0;
 	if (ft_strlen(line) - end + start == 0)
@@ -74,17 +77,18 @@ char	*str_cut(char *line, int start, int end)
 	return (new_line);
 }
 
-char	*str_modify(char *str, int i, int len, char *add)  //prend une string, supprime ce qu'il y a a l'indice m sur une taille len, et ajoute la string add a l,indice i
+char	*str_modify(char *str, int i, int len, char *add)
 {
 	char	*new_str;
-	int 	j;
-	int 	k;
+	int		j;
+	int		k;
 
 	if (!str)
 		return (add);
 	if (!add || !add[0])
 		return (str);
-	new_str = ft_calloc(ft_strlen(str) - len + ft_strlen(add) + 1, sizeof(char));
+	new_str = ft_calloc(ft_strlen(str) - len + ft_strlen(add) + 1,
+			sizeof(char));
 	if (!new_str)
 		exit (24);   //pas ok
 	j = -1;
@@ -101,4 +105,3 @@ char	*str_modify(char *str, int i, int len, char *add)  //prend une string, supp
 	free(add);
 	return (new_str);
 }
-

@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 10:58:26 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/15 09:36:56 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/16 14:51:43 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_section	*create_section(char *line)
 	return (first);
 }
 
-t_section *parsing(char *line, char **env)
+t_section	*parsing(char *line, char **env)
 {
 	t_section	*first;
 

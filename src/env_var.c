@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:20:59 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/10 11:47:45 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/16 16:45:52 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 int	ambigous_var(t_red *red, char **env, int i, int j)
 {
 	char	*var;
-	int 	len_name;
+	int		len;
 
-	len_name = 0;
-	while ((red->temp[i][j + len_name + 1] < 91 && red->temp[i][j + len_name + 1] > 64) || (red->temp[i][j + len_name + 1] < 123 && red->temp[i][j + len_name + 1] > 96) || (red->temp[i][j + len_name + 1] < 58 && red->temp[i][j + len_name + 1] > 47))
-		len_name++;
-	var = find_var(&red->temp[i][j + 1], env, len_name);
+	len = 0;
+	while ((red->temp[i][j + len + 1] < 91 && red->temp[i][j + len + 1] > 64)
+		|| (red->temp[i][j + len + 1] < 123 && red->temp[i][j + len + 1] > 96)
+		|| (red->temp[i][j + len + 1] < 58 && red->temp[i][j + len + 1] > 47))
+		len++;
+	var = find_var(&red->temp[i][j + 1], env, len);
 	if (!var)
 		return (0);
 	i = 0;
@@ -53,10 +55,12 @@ char	*find_var(char *name, char **env, int len)
 char	*apply_var(char *token, char **env, int *i)
 {
 	char	*var;
-	int 	len_name;
+	int		len_name;
 
 	len_name = 0;
-	while ((token[*i + len_name + 1] < 91 && token[*i + len_name + 1] > 64) || (token[*i + len_name + 1] < 123 && token[*i + len_name + 1] > 96) || (token[*i + len_name + 1] < 58 && token[*i + len_name + 1] > 47))
+	while ((token[*i + len_name + 1] < 91 && token[*i + len_name + 1] > 64)
+		|| (token[*i + len_name + 1] < 123 && token[*i + len_name + 1] > 96)
+		|| (token[*i + len_name + 1] < 58 && token[*i + len_name + 1] > 47))
 		len_name++;
 	if (!len_name)
 		return ((*i)++, token);
@@ -77,7 +81,8 @@ void	check_var(t_red *red, char **env, int i)
 	{
 		if (red->temp[i][j] == '$')
 		{
-			if (!red->temp[i][j + 1] && red->protection[i + 1] != 0 && red->protection[i] == 0)
+			if (!red->temp[i][j + 1] && red->protection[i + 1] != 0
+				&& red->protection[i] == 0)
 				red->temp[i] = str_cut(red->temp[i], j, j + 1);
 			else if (ambigous_var(red, env, i, j))
 				return ; // pas ok, faut gerer ca
@@ -93,10 +98,10 @@ void	red_process_var(t_section *first, char **env)
 {
 	t_section	*sect;
 	t_red		*red;
-	int 		i;
+	int			i;
 
 	sect = first;
-	while(sect)
+	while (sect)
 	{
 		red = sect->first_red;
 		while (red)

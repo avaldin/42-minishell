@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:53:12 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/16 15:16:31 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/16 16:50:34 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	bad_var(t_section *sect)
 	{
 		if (sect->pipe[i] == '"' || sect->pipe[i] == 39)
 			i += skip_quote(&sect->pipe[i]) + 2;
-		else if (sect->pipe[i] == '$' && (sect->pipe[i + 1] == '"' || sect->pipe[i + 1] == 39))
+		else if (sect->pipe[i] == '$' && (sect->pipe[i + 1] == '"'
+				|| sect->pipe[i + 1] == 39))
 			sect->pipe = str_cut(sect->pipe, i, i);
 		else
 			i++;
@@ -30,7 +31,7 @@ void	bad_var(t_section *sect)
 
 void	cmd_process_var(t_section *sect, char **env)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	bad_var(sect);

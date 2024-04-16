@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 10:01:56 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/10 17:05:56 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/16 17:01:16 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,15 @@
 
 int	red_length(char *line)
 {
-	int len;
-	int i;
+	int	len;
+	int	i;
 
 	len = 0;
 	i = 0;
 	while (line[i] && (line[i] == ' ' || line[i] == '	'))
 		i++;
-	while (line[i] && !(line[i] == ' ' || line[i] == '	' || line[i] == '<' || line[i] == '>'))
+	while (line[i] && !(line[i] == ' ' || line[i] == '	' || line[i] == '<'
+			|| line[i] == '>'))
 	{
 		if (line[i] == '"' || line[i] == 39)
 		{
@@ -34,12 +35,11 @@ int	red_length(char *line)
 	return (len);
 }
 
-
 int	extract_red(t_red *red, char *line)
 {
 	char	*redirect;
 	int		red_count;
-	int 	i;
+	int		i;
 
 	red_count = 1;
 	if (line[0] == line[1])
@@ -61,7 +61,7 @@ int	extract_red(t_red *red, char *line)
 
 void	create_red(char *line, t_section *sect)
 {
-	int 	i;
+	int		i;
 	t_red	*red;
 
 	i = 0;
@@ -88,10 +88,9 @@ void	create_red(char *line, t_section *sect)
 	sect->pipe = line;
 }
 
-
 void	redirection(t_section *first, char **env)
 {
-	t_section *sect;
+	t_section	*sect;
 
 	sect = first;
 	while (sect)

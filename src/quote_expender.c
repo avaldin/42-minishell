@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 09:38:27 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/10 18:06:56 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/16 16:56:47 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int	quote_count(char *line)
 
 void	temp_filling(t_red *red)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -46,7 +46,8 @@ void	temp_filling(t_red *red)
 		{
 			if (i != j)
 				red->temp[red->tmp_len++] = ft_strdup(red->file[0], j, i - j);
-			red->temp[red->tmp_len] = ft_calloc(skip_quote(&red->file[0][i]) + 1, sizeof(char));
+			red->temp[red->tmp_len] = ft_calloc(skip_quote(
+						&red->file[0][i]) + 1, sizeof(char));
 			if (!red->temp)
 				exit(44); //pas ok
 			red->protection[red->tmp_len++] = 2;
@@ -68,10 +69,12 @@ void	red_quote_expender(t_section *sect)
 	red = sect->first_red;
 	while (red)
 	{
-		red->temp = ft_calloc(2 * quote_count(red->file[0]) + 2, sizeof(char *));
+		red->temp = ft_calloc(2 * quote_count(red->file[0]) + 2,
+				sizeof(char *));
 		if (!red->temp)
 			exit(56); //pasok
-		red->protection = ft_calloc(2 * quote_count(red->file[0]) + 2, sizeof(int));
+		red->protection = ft_calloc(2 * quote_count(red->file[0]) + 2,
+				sizeof(int));
 		if (!red->protection)
 			exit(76); //pas ok
 		temp_filling(red);

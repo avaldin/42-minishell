@@ -25,7 +25,7 @@ char	*ft_strdup(const char *s, int start, int len)
 		str = ft_calloc(len + 1, sizeof(char));
 	if (!str)
 		return (NULL);
-	i = - 1;
+	i = -1;
 	while (s[++i + start] && len--)
 		str[i] = s[i + start];
 	str[i] = '\0';

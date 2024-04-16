@@ -25,7 +25,7 @@ void	ft_redclear(t_red *lst)
 
 void	cmd_clear(char **cmd)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (cmd[i])

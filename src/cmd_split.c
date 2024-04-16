@@ -6,15 +6,15 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:53:12 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/16 15:16:31 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/16 15:43:10 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int cmd_count(char *line)
+int	cmd_count(char *line)
 {
-	int count;
+	int	count;
 	int	i;
 
 	i = 0;
@@ -37,10 +37,10 @@ int cmd_count(char *line)
 	return (count);
 }
 
-int cmd_len(char *line)
+int	cmd_len(char *line)
 {
-	int i;
-	int len;
+	int	i;
+	int	len;
 
 	i = 0;
 	len = 0;
@@ -60,10 +60,10 @@ int cmd_len(char *line)
 	return (len);
 }
 
-int add_cmd(char *line, char *cmd)
+int	add_cmd(char *line, char *cmd)
 {
-	int i;
-	int len;
+	int	i;
+	int	len;
 
 	i = 0;
 	len = 0;
@@ -87,7 +87,7 @@ int add_cmd(char *line, char *cmd)
 void	cleaning_cmd(t_section *sect, char *line)
 {
 	int		i;
-	int 	i_cmd;
+	int		i_cmd;
 	char	**cmd;
 
 	i = 0;

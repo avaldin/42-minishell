@@ -42,6 +42,7 @@ SOURCES		=	ft_calloc.c\
 				union.c\
 				checking.c\
 				cmd_split.c\
+				red_syntax.c\
 
 
 

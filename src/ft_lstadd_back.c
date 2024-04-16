@@ -57,5 +57,3 @@ t_red	*ft_redadd_back(t_red *lst, t_red *new)
 		lst = new;
 	return (lst);
 }
-
-
