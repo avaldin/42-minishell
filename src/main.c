@@ -18,21 +18,21 @@ void	print_pars(t_section *first)
 	t_red		*red;
 	int 		i = 1;
 	int 		j;
-//	int 		k;
+	int 		k;
 
 	sect = first;
 	while (sect)
 	{
 		printf("\n           section %d\n\n", i);
 		j = 1;
-//		k = 0;
+		k = 0;
 		red = sect->first_red;
-//		printf("\ncmd = ");
-//		while (sect->cmd[k])
-//		{
-//			printf("arg %d = %s;    ", k, sect->cmd[k]);
-//			k++;
-//		}
+		printf("\ncmd = ");
+		while (sect->cmd[k])
+		{
+			printf("arg %d = %s;    ", k, sect->cmd[k]);
+			k++;
+		}
 		printf("\n");
 		while (red)
 		{

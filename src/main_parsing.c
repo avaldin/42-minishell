@@ -58,6 +58,6 @@ t_section *parsing(char *line, char **env)
 		return (NULL);
 	first = create_section(line);
 	redirection(first, env);
-	//cmd;
+	command(first, env);
 	return (first);
 }

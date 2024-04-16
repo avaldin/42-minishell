@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pars_cmd.c                                         :+:      :+:    :+:   */
+/*   cmd_split.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avaldin <avaldin@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:53:12 by avaldin           #+#    #+#             */
-/*   Updated: 2024/03/27 14:34:11 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/16 15:16:31 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ int cmd_count(char *line)
 
 	i = 0;
 	count = 0;
-	while (line[i] && line[i] != '|')
+	while (line[i])
 	{
-		if (line[i] != ' ' && line[i] != '	')
+		if (line[i] != ' ')
 		{
 			count++;
-			while (line[i] && line[i] != ' ' && line[i] != '	')
+			while (line[i] && line[i] != ' ')
 			{
 				if (line[i] == '"' || line[i] == 39)
 					i += skip_quote(&line[i]) + 1;
@@ -44,7 +44,7 @@ int cmd_len(char *line)
 
 	i = 0;
 	len = 0;
-	while (line[i] && line[i] != '|' && line[i] != ' ' && line[i] != '	')
+	while (line[i] && line[i] != ' ')
 	{
 		if (line[i] == '"' || line[i] == 39)
 		{
@@ -67,7 +67,7 @@ int add_cmd(char *line, char *cmd)
 
 	i = 0;
 	len = 0;
-	while (line[i] && line[i] != '|' && line[i] != ' ' && line[i] != '	')
+	while (line[i] && line[i] != ' ')
 	{
 		if (line[i] == '"' || line[i] == 39)
 		{
@@ -95,7 +95,7 @@ void	cleaning_cmd(t_section *sect, char *line)
 	cmd = ft_calloc(cmd_count(line) + 1, sizeof(char *));
 	if (!cmd)
 		exit (10);  // pas ok
-	while (line[i] && line[i] != '|')
+	while (line[i])
 	{
 		if (line[i] != ' ' && line[i] != '	')
 		{
