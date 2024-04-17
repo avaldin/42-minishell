@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:41:44 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/10 18:14:59 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/17 10:09:40 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,15 @@ char	*temp_join(t_red *red)
 		if (!red->temp[i] || !red->temp[i][0])
 			i++;
 		else
-			file = red->temp[i++];
+			file = ft_strdup(red->temp[i++], 0, -1);
 	}
 	while (i < red->tmp_len)
 	{
 		if (red->temp[i] && red->temp[i][0])
-			file = str_modify(file, (int)ft_strlen(file), 0,
-					ft_strdup(red->temp[i], 0, -1));
+		{
+			file = str_modify(file, (int) ft_strlen(file), 0,
+						ft_strdup(red->temp[i], 0, -1));
+		}
 		i++;
 	}
 	return (file);

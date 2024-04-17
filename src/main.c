@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 10:33:16 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/16 16:24:01 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/17 09:15:41 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ int	main(int argc, char **argv, char **env)
 		{
 			rl_clear_history();
 			free(data->sa);
-			free(data);
-			exit(12); // pas ok
+			clean_exit(data);
 		}
 		add_history(line);
 		parsing(line, env, data);
+		printf("first %p\n", data->first);
 		ft_sectclear(data->first);
 	}
-	free(data);
-	return (0);
+	free(data->sa);
+	clean_exit(data);
 }

@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 10:33:07 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/16 17:28:52 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/17 09:02:34 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ typedef struct s_redirection
 	int						tmp_len;
 	int						direction;
 	struct s_redirection	*next;
-	struct s_data			*data;
 }							t_red;
 
 typedef struct s_section

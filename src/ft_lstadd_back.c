@@ -55,5 +55,6 @@ t_red	*ft_redadd_back(t_red *lst, t_red *new)
 	}
 	else if (!lst)
 		lst = new;
+	new->next = NULL;
 	return (lst);
 }

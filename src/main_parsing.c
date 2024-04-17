@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 10:58:26 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/16 17:53:21 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/17 09:25:45 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,14 @@ void	add_section(t_data *data, char *line, int start, int end)
 	sect->data = data;
 }
 
-t_section	*create_section(char *line, t_data *data)
+void	create_section(char *line, t_data *data)
 {
 	int			i;
 	int			j;
-	t_section	*first;
 
 	i = 0;
 	j = 0;
-	first = NULL;
+	data->first = NULL;
 	while (line[i])
 	{
 		if (line[i] == '"' || line[i] == 39)
@@ -47,7 +46,6 @@ t_section	*create_section(char *line, t_data *data)
 		i++;
 	}
 	add_section(data, line, j, i);
-	return (first);
 }
 
 void	parsing(char *line, char **env, t_data *data)
@@ -57,7 +55,7 @@ void	parsing(char *line, char **env, t_data *data)
 		data->first = NULL;
 		return ;
 	}
-	data->first = create_section(line, data);
+	create_section(line, data);
 	redirection(data, env);
 	command(data->first, env);
 }
