@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 12:46:30 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/19 12:13:48 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/19 14:25:35 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	ft_redclear(t_file *lst)
 		while (++i < lst->tmp_len)
 			if (lst->temp && lst->temp[i])
 			{
-				printf("temp free = %s\n", lst->temp[i]);
 				free(lst->temp[i]);
 				lst->temp[i] = NULL;
 			}

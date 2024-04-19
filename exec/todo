@@ -12,11 +12,28 @@ changement :
 
 -dans give path, tu test path[i] alors aue tu vgiens de le free.
 
--cmd pars process, ajout d'un flag pour savoir si on est dans des guillemet pour skip les simnple quote
+-cmd_pars process, ajout d'un flag pour savoir si on est dans des guillemet pour skip les simnple quote
 
 - secu sur le fail d'execve
 
 - redirect est directement cree dans red->name[0]
+
+- signaux, memset pour silent les leaks
+
+changement par ligne :
+
+-exec_buildin_exit -> ft_sectclear a la place de lstfree
+-exec_checker_path -> check path[i] avant de le free dans give_path
+-exec_free -> ajouter ft_sectclear dedans.
+-main -> check !line apres readline et tout free si c'est le cas et exit
+      -> init line = NULL;
+      -> ft_sectclear a la fin et attention au pid a le mettre a nul a chaque fois pour check si y a besoin de le free
+-pars_cmd -> ajout du flag dans cmd_process_var, et du premier if dans le while
+-pars_data_clear -> gros changement sur ft_redclear et peut etre sur sect_clear donc copy colle je pense
+-pars_quote_expender -> test si y a une diff mais je crois pas avoir toucher qq chose
+-pars_redirect -> dans extract_red, changement de tout les redirect par red->redirect
+-signal -> ajout du memset.
+
 
 
 
@@ -58,4 +75,6 @@ error :
 ==60210==    by 0x404FE6: _is_a_buildin (exec_buildin.c:28)
 ==60210==    by 0x40134F: main (main.c:72)
 
-- echo "oui la "vie" "est           "belle       et c'"est cool ; invalid read of size
+
+
+- ls >oui | < oui cat >>oui | < oui wc -l ; pas bon resultat

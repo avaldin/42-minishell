@@ -15,6 +15,7 @@
 #include <unistd.h>
 #include "../HDRS/execution.h"
 #include "../include/libft/libft.h"
+#include "../HDRS/parsing.h"
 
 void	_bi_exit(t_data *args, t_section *s_cmd, int *fd_pw, int *fd_pr)
 {
@@ -26,6 +27,7 @@ void	_bi_exit(t_data *args, t_section *s_cmd, int *fd_pw, int *fd_pr)
 		_open_file(args, s_cmd->file, fd_f);
 	_pipe_closer(fd_pr, fd_pw, fd_f);
 	_freetab(args->env);
-	_lstfree(args->head, SECTION_LST);
+	ft_sectclear(args->head);
+//	_lstfree(args->head, SECTION_LST);
 	exit (EXIT_SUCCESS);
 }

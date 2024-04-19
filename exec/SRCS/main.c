@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:35:44 by tmouche           #+#    #+#             */
-/*   Updated: 2024/04/19 10:57:58 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/19 15:08:31 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,14 @@ int	main(int argc, char **argv, char **env)
 			free (pwd);
 			free (temp);
 		}
+		if (!line)
+		{
+			i = 0;
+			while (args.env[i])
+				free(args.env[i++]);
+			free(args.env);
+			exit (56);
+		}
 		// si pwd fail, on envoie line qui est pas def dans add history et la suite, pas bien.
 		add_history(line);
 		parsing(line, args.env, &args); // si !line alors !args
@@ -86,11 +94,13 @@ int	main(int argc, char **argv, char **env)
 				waitpid(args.pid[i], NULL, 0);
 				++i;
 			}
+			if (args.pid)
+				free (args.pid);
+			args.pid = NULL;
 		}
 		//_lstfree(args.head, SECTION_LST);
 		ft_sectclear(args.head);
-	//	free (args.pid);
-		//exit (133);
+
 	}
 	return (0);
 }

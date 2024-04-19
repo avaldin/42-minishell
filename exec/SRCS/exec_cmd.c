@@ -68,3 +68,8 @@ void	fork_n_exec(t_data *args, t_section *cmd)
 	}
 	_pipe_closer(args->pipe, args->pipe_sec, NULL);
 }
+
+/*
+ * set detach-on-fork off
+	set follow-fork-mode child
+ */
