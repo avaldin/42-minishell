@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 12:46:30 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/17 10:32:37 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/17 14:41:42 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,19 @@ void	ft_redclear(t_red *lst)
 	if (lst)
 	{
 		ft_redclear(lst->next);
-		if (lst->file)
+		if (lst->file && *lst->file)
 		{
 			free(lst->file[0]);
 			if (lst->file[1])
 				free(lst->file[1]);
 			free(lst->file);
+			lst->file = NULL;
 		}
 		if (lst->protection)
+		{
 			free(lst->protection);
+			lst->protection = NULL;
+		}
 		while (++i < lst->tmp_len)
 			if (lst->temp && lst->temp[i])
 			{
