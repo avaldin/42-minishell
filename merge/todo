@@ -1,0 +1,61 @@
+comment << fonctionne :
+	si ca rentre dans un pipe il ecrit dans le pipe si c est trop grand il cree un fichier
+FAIRE L HISTORIQUE
+memory
+norm
+
+
+
+
+
+changement :
+
+-dans give path, tu test path[i] alors aue tu vgiens de le free.
+
+-cmd pars process, ajout d'un flag pour savoir si on est dans des guillemet pour skip les simnple quote
+
+- secu sur le fail d'execve
+
+- redirect est directement cree dans red->name[0]
+
+
+
+A CHANGER :
+
+- si il y a pas de cmd, je r'envoie cmd[0] NULL,  ca donne ca :
+
+==71418==Hint: address points to the zero page.
+    #0 0x4dc137 in ft_strjoin (/home/avaldin/422/git_42/minishell-merge/exec/minishell+0x4dc137)
+    #1 0x4d531d in _give_path /home/avaldin/422/git_42/minishell-merge/exec/SRCS/exec_checker_path.c:45:9
+    #2 0x4d5035 in _pathfinder /home/avaldin/422/git_42/minishell-merge/exec/SRCS/exec_checker_path.c:76:13
+    faut check si cmd[0] != NULL et agir si c'est le cas
+
+
+
+
+POUR DEBUG, utiliser -fsanitize=address -static-libsan dans le cflag et utiliser le debugger
+
+
+
+
+
+
+
+
+
+
+
+error :
+
+- <a ne donne pas le bon message d'erreur (osef ?)
+-  export fonctionne pas de temps en temps
+    export ha = 25
+
+==60210== Process terminating with default action of signal 11 (SIGSEGV)
+==60210==  Access not within mapped region at address 0x4
+==60210==    at 0x404E62: _pipe_closer (exec_utils.c:51)
+==60210==    by 0x40584A: _bi_export (exec_buildin_export.c:125)
+==60210==    by 0x404FE6: _is_a_buildin (exec_buildin.c:28)
+==60210==    by 0x40134F: main (main.c:72)
+
+- echo "oui la "vie" "est           "belle       et c'"est cool ; invalid read of size
