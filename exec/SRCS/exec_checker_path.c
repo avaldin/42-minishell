@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_checker_path.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: tmouche <tmouche@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 15:52:42 by tmouche           #+#    #+#             */
-/*   Updated: 2024/04/19 10:39:34 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/21 22:47:38 by tmouche          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	**_env_check(t_data *args)
 	{
 		path = ft_split(args->env[i], ':');
 		if (!path)
-			_error_exit(args, NULL, 1);
+			_error_exit(args, NULL, 2);
 	}
 	return (path);
 }
@@ -44,25 +44,21 @@ static char	*_give_path(t_data *args, char **path, char *cmd)
 	i = 0;
 	temp = ft_strjoin("/", cmd);
 	if (!temp)
-		_error_exit(args, NULL, 1);
+		_error_exit(args, NULL, 2);
 	while (path[i])
 	{
 		path_cmd = ft_strjoin(path[i], temp);
 		if (!path_cmd)
-			_error_exit(args, NULL, 1);
+			_error_exit(args, NULL, 2);
 		if (access(path_cmd, X_OK) == 0)
 			break ;
 		free (path_cmd);
 		++i;
 	}
 	free(temp);
-	if (!path[i])
-	{
-		_freetab(path);
-		return (NULL);
-	}
-	_freetab(path);
-	return (path_cmd);
+	if (path[i] != 0)
+		return (_freetab(path), path_cmd);
+	return (_freetab(path), NULL);
 }
 
 void	_pathfinder(t_data *args, char **cmd)

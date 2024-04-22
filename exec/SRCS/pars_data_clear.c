@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_data_clear.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: tmouche <tmouche@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 12:46:30 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/19 14:25:35 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/19 18:13:53 by tmouche          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,13 @@ void	ft_redclear(t_file *lst)
 		}
 		i = -1;
 		while (++i < lst->tmp_len)
+		{
 			if (lst->temp && lst->temp[i])
 			{
 				free(lst->temp[i]);
 				lst->temp[i] = NULL;
 			}
+		}
 		free(lst->temp);
 		lst->temp = NULL;
 		free(lst);

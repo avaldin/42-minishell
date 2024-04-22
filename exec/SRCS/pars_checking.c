@@ -18,7 +18,7 @@ static int	paire_of_quote(char *line)
 	int	i;
 
 	i = 0;
-	while (line && line[i])
+	while (line[i])
 	{
 		if (line[i] == '"' || line[i] == 39)
 		{

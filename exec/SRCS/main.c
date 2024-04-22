@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:35:44 by tmouche           #+#    #+#             */
-/*   Updated: 2024/04/19 15:08:31 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/22 11:48:05 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,51 @@
 #include "../HDRS/execution.h"
 #include "../include/libft/libft.h"
 
+int	g_err;
+
+static inline void	_add_history(t_data *args, char *line)
+{
+	int	fd;
+
+	if (!line || !line[0])
+		return ;
+	add_history(line);
+	fd = open(args->path_history, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (fd == -1)
+		_error_exit(args, NULL, 1);
+	if (write(fd, line, ft_strlen(line, '0')) == -1 
+		|| write(fd, "\n", 1) == -1)
+		_error_exit(args, NULL, 1);
+}
+
+static inline int	_get_path_history(t_data *args)
+{
+	char	*temp;
+	char	*path;
+	int		i;
+
+	temp = _define_cwd();
+	if (!temp)
+		return (-1);
+	i = 2;
+	i += ft_strlen(&temp[i], '/');
+	++i;
+	i += ft_strlen(&temp[i], '/');
+	++i;
+	path = ft_calloc(sizeof(char), i + 1);
+	if (!path)
+		return (-1);
+	ft_strlcpy(path, temp, ++i);
+	if (!path)
+		return (-1);
+	args->path_history = ft_strjoin(path, ".minishell-history");
+	if (!args->path_history)
+		return (-1);
+	free(path);
+	free(temp);
+	return (0);
+}
+
 static inline int	_how_many_cmd(t_section *cmd)
 {
 	t_section	*temp;
@@ -41,66 +86,84 @@ static inline int	_how_many_cmd(t_section *cmd)
 	return (counter);
 }
 
-int	main(int argc, char **argv, char **env)
+static inline void	_execution(t_data *args)
 {
-	t_data		args;
-	char		*pwd;
-	char		*temp;
-	char		*line;
-	int			count;
-	int			i;
+	int	i;
+	int	count;
 
-	(void)argc;
-	(void)argv;
-	args.env = _map_cpy(env);
-	sig_int();
-	sig_quit();
-	line = NULL;
-	while (42)
+	count = _how_many_cmd(args->head);	
+	if (count == 0)
+		exit (EXIT_FAILURE);
+	args->pid = malloc(sizeof(pid_t) * count);
+	if (!args->pid)
+		exit (EXIT_FAILURE);
+	fork_n_exec(args, args->head);
+	i = 0;
+	while (i < count)
 	{
-		pwd = _define_cwd();
-		if (pwd)
-		{
-			temp = ft_strjoin (pwd, "$ ");
-			line = readline(temp);
-			free (pwd);
-			free (temp);
-		}
+		waitpid(args->pid[i], NULL, 0);
+		++i;
+	}
+	if (args->pid)
+		free (args->pid);
+	args->pid = NULL;
+}
+
+void	_looper(t_data *args)
+{
+	char				*pwd;
+	char				*temp;
+	char				*line;
+	
+	args->pid = NULL;
+	pwd = _define_cwd();
+	if (pwd)
+	{
+		temp = ft_strjoin (pwd, "$ ");
+		free (pwd);
+		line = readline(temp);
+		free (temp);
 		if (!line)
 		{
-			i = 0;
-			while (args.env[i])
-				free(args.env[i++]);
-			free(args.env);
-			exit (56);
+			rl_clear_history();
+			free(args->pid);
+			free(args->path_history);
+			_freetab(args->env);
+			exit (24);
 		}
-		// si pwd fail, on envoie line qui est pas def dans add history et la suite, pas bien.
-		add_history(line);
-		parsing(line, args.env, &args); // si !line alors !args
-		if (!args.head->next && _is_a_buildin(&args, args.head, NULL, NULL) == 1)
-			;
-		else
-		{
-			count = _how_many_cmd(args.head);	
-			if (count == 0)
-				exit (EXIT_FAILURE);
-			args.pid = malloc(sizeof(pid_t) * count);
-			if (!args.pid)
-				exit (EXIT_FAILURE);
-			fork_n_exec(&args, args.head);
-			i = 0;
-			while (i < count)
-			{
-				waitpid(args.pid[i], NULL, 0);
-				++i;
-			}
-			if (args.pid)
-				free (args.pid);
-			args.pid = NULL;
-		}
-		//_lstfree(args.head, SECTION_LST);
-		ft_sectclear(args.head);
-
 	}
+	else
+		return ;
+	_add_history(args, line);
+	parsing(line, args->env, args);
+	if (!args->head->next)
+	{
+		if (_is_a_buildin(args, args->head, NULL, NULL) == 0)
+			_execution(args);
+	}
+	else
+		_execution(args);
+	ft_sectclear(args->head);
+	//_lstfree(args->head, SECTION_LST);
+	//free (args.pid);
+}
+
+int	main(int argc, char **argv, char **env)
+{
+	t_data	args;
+	
+	(void)argc;
+	(void)argv;
+	g_err = 0;
+	args.env = _map_cpy(env);
+	if (!args.env)
+		return (-1);
+	if (_get_path_history(&args) == -1)
+		return (-1);
+	sig_int();
+	sig_quit();
+	while (42)
+		_looper(&args);
 	return (0);
 }
+ 

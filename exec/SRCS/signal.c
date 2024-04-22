@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: tmouche <tmouche@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 13:07:34 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/19 16:23:24 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/19 17:53:50 by tmouche          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <readline/readline.h>
 #include "../HDRS/parsing.h"
 
-void	*ft_memset(void *s, int c, size_t n)
+static void	*ft_memset(void *s, int c, size_t n)
 {
 	size_t			i;
 
@@ -34,7 +34,7 @@ void	handle_sig(int sig)
 	if (sig == SIGINT)
 	{
 		rl_on_new_line();
-		rl_replace_line("", 1);
+		rl_replace_line("", 1);	
 		printf("\n");
 		rl_redisplay();
 	}

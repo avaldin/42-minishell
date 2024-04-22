@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_buildin_export.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibaud <thibaud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tmouche <tmouche@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 16:19:58 by tmouche           #+#    #+#             */
-/*   Updated: 2024/04/17 18:16:08 by thibaud          ###   ########.fr       */
+/*   Updated: 2024/04/22 00:46:21 by tmouche          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static inline void	_search_n_replace(t_data *args, t_section *s_cmd,
 
 static inline void	_export_str(t_data *args, t_section *s_cmd, t_index *lst)
 {
+	t_index	*to_free;
 	char	*temp;
 	size_t	len;
 
@@ -62,7 +63,9 @@ static inline void	_export_str(t_data *args, t_section *s_cmd, t_index *lst)
 		}
 		ft_strlcpy(temp, s_cmd->path_cmd[lst->i], len + 1);
 		_search_n_replace(args, s_cmd, lst, temp);
-		lst = lst->next;
+		to_free = lst->next;
+		free(lst);
+		lst = to_free;
 	}
 }
 
@@ -98,6 +101,10 @@ static inline void	_set_export(t_data *args, t_section *s_cmd)
 	{
 		if (ft_strrchr(s_cmd->path_cmd[i_args], '='))
 		{
+			if (_str_no_spe_char(s_cmd->path_cmd[i_args]) == 0)
+				_error_exit(args, ft_strjoin("bash: export: '",
+				ft_strjoin(s_cmd->path_cmd[i_args],
+				"': not a valid identifier\n")), 0);
 			if (_check_exist(&lst, s_cmd->path_cmd, i_args) == 1)
 			{
 				temp = _lstnew_index(i_args);
@@ -122,7 +129,8 @@ void	_bi_export(t_data *args, t_section *s_cmd, int *fd_pw, int *fd_pr)
 	fd_f[1] = 1;
 	if (s_cmd->file)
 		_open_file(args, s_cmd->file, fd_f);
+	if (!s_cmd->path_cmd[1])
+	 	_write_env(args->env, "declare -x", fd_f[1]);
 	_pipe_closer(fd_pr, fd_pw, fd_f);
 	_set_export(args, s_cmd);
-	return ;
 }
