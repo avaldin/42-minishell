@@ -67,7 +67,7 @@ void	parsing(char *line, char **env, t_data *data)
 	if (checking(line))
 	{
 		data->head = NULL;
-		return ;
+		_looper(data);
 	}
 	create_section(line, data);
 	redirection(data, env);
