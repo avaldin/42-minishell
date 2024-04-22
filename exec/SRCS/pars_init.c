@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibaud <thibaud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 10:58:26 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/17 18:01:59 by thibaud          ###   ########.fr       */
+/*   Updated: 2024/04/22 13:57:00 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	create_section(char *line, t_data *data)
 
 void	parsing(char *line, char **env, t_data *data)
 {
-	if (checking(line))
+	if (!line[0] || checking(line))
 	{
 		data->head = NULL;
 		_looper(data);

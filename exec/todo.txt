@@ -30,6 +30,8 @@ changement par ligne :
 
 - pars_env_var -> l 84 ajout de 2 lignes pour $?
 
+- pars_init l 67, check si line[0] est null
+
 
 
 A CHANGER :
@@ -66,16 +68,28 @@ A̶T̶T̶E̶N̶T̶I̶O̶N̶ :̶ L̶e̶ n̶o̶m̶ d̶'̶u̶n̶e̶ v̶-̶e̶n̶v̶
 
 - env var pete un plomb quand on met un $
 
+- entree quite si la ligne est vide (mon pb )
+- ctr-c sur cat creer un double prompte (mon pb)
+- ctrl \ ne stop pas l'exec (mon pb )
+- ctrl \ avec un prompt n'exit pas (mon pb)
+
 COMMENTAIRE ;
 
 J ai add un historique lisible, si tu fais "history" ca te le disp normalement, si ca marche pas c est que jai fail le path.
 J ai modifie bc de fonctions et split le main, faut que je fasse mes retours d erreurs de facon clean, on se mettra d accord pour une fonction qui free tout c est le mieux imo 
 normalement j ai corrige pas mal de bug ou de retour d erreur qui ne fonctionnait pas, te prend pas la tete avec la norm je la ferai. J ai cree la global mais elle est pas link.
 
+mec dans la correction ca parle d'argument pour exit, faut check ca.
+   echo ca parle du -n
 
 
 
 LEAAAAAAAAKS :
 
 - ls <a
-- redirection leak / segfault
+- redirection leak / segfault --> c'est quand y a pas de cmd je crois
+- espace plante, peut etre a cause du manque de cmd
+
+
+A TEST :
+env -i ./minishell

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmouche <tmouche@student.42.fr>            +#+  +:+       +#+        */
+/*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 18:49:18 by thibaud           #+#    #+#             */
-/*   Updated: 2024/04/21 22:51:35 by tmouche          ###   ########.fr       */
+/*   Updated: 2024/04/22 14:23:02 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	fork_n_exec(t_data *args, t_section *s_cmd)
 	while (s_cmd)
 	{
 		args->pid[i] = fork();
+
 		if (args->pid[i] == -1)
 		{
 			_pipe_closer(args->pipe, args->pipe_sec, NULL);
