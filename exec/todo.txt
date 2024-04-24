@@ -14,29 +14,36 @@ changement par ligne :
 -̶p̶a̶r̶s̶_̶r̶e̶d̶i̶r̶e̶c̶t̶ -̶>̶ d̶a̶n̶s̶ e̶x̶t̶r̶a̶c̶t̶_̶r̶e̶d̶,̶ c̶h̶a̶n̶g̶e̶m̶e̶n̶t̶ d̶e̶ t̶o̶u̶t̶ l̶e̶s̶ r̶e̶d̶i̶r̶e̶c̶t̶ p̶a̶r̶ r̶e̶d̶-̶>̶r̶e̶d̶i̶r̶e̶c̶t̶
 -̶s̶i̶g̶n̶a̶l̶ -̶>̶ a̶j̶o̶u̶t̶ d̶u̶ m̶e̶m̶s̶e̶t̶.̶
 
-- dans _get_path_history free path et temp;
-- dans exec_free l55 et 56, add :
+-̶ d̶a̶n̶s̶ _̶g̶e̶t̶_̶p̶a̶t̶h̶_̶h̶i̶s̶t̶o̶r̶y̶ f̶r̶e̶e̶ p̶a̶t̶h̶ e̶t̶ t̶e̶m̶p̶;̶
+- d̶a̶n̶s̶ e̶x̶e̶c̶_̶f̶r̶e̶e̶ l̶5̶5̶ e̶t̶ 5̶6̶,̶ a̶d̶d̶ :̶
 	                                ft_sectclear(args->head);
                                     free(args->pid);
                                 	free(args->path_history);
 
-- apres readline, on check !line et pas line[0];
+- f̶r̶e̶e̶ t̶e̶m̶p̶ a̶v̶a̶n̶t̶ d̶e̶ c̶h̶e̶c̶k̶ !̶l̶i̶n̶e̶
+-̶ a̶j̶o̶u̶t̶e̶r̶ a̶ e̶x̶i̶t̶ :̶ f̶t̶_̶s̶e̶c̶t̶c̶l̶e̶a̶r̶,̶ f̶r̶e̶e̶ p̶a̶t̶h̶_̶h̶i̶s̶t̶o̶r̶y̶
 
-- quand ctrl-d = !line : rl_clear_history, free map_cpy, args->env, pid freepath_history
-- free temp avant de check !line
-- ajouter a exit : ft_sectclear, free path_history
+-̶ p̶a̶r̶s̶_̶e̶n̶v̶_̶v̶a̶r̶ -̶>̶ l̶ 8̶4̶ a̶j̶o̶u̶t̶ d̶e̶ 2̶ l̶i̶g̶n̶e̶s̶ p̶o̶u̶r̶ $̶?̶
+                                                                                 !!!!!!!!!!!!
+- pars_init l 67, check si line[0] est null *{autant le faire direct dans looper nan ?} nan autant que dans le parcing je test tout et su ligne ne confient pas, je r'envoie args->head = NULL au moins on a que ca a check
+                                                                                   !!!!!!!!!!
+||  24/04 || -- alan
 
--pars_init ligne 70, on remplace le return par _looper
+- _freetab -> ajouter tab dans while, si il existe pas ca crash.
+-j'ai change le main psk il etait trop charge, on a la fonction prompt mtn qui fait tout ce qu'il faut.
+-> si line nulle (ctrl-d) ca exit, si line[0] au parsing je fais args->head = NULL, du coup je return, et dans prompt si line[0] = 0 j'ajoute pas a l'history
 
-- pars_env_var -> l 84 ajout de 2 lignes pour $?
+- signals.c -> copy colle le fichier, j'ai change un pti truc, struct.h aussi, sig_quit et sig_int devient sig. de plus, em dessous des waitpid y a des if, faudra que je t'explique ca peut servir a avoir la valeur de retour;
+- _execution -> comme je t'ai dis j'ai ajoute des if en dessous des waitpid et un int wstatus que j'initie a 0;
+- _exec_cmd -> ajout de sigquit(1) au debut de la fonction.
 
-- pars_init l 67, check si line[0] est null
+- pars_init -> l67, check si line et line[0] sont pas nul, j'ai aussi change des if, tu peux copier coller
 
-
+||  24/04 || -- alan -fin
 
 A CHANGER :
 
-- si il y a pas de cmd, je r'envoie cmd[0] NULL,  ca donne ca : *{pas compris chef j pense c est deja gere mais j ai add des trucs}
+- si il y a pas de cmd, je r'envoie cmd NULL,  ca donne ca : *{pas compris chef j pense c est deja gere mais j ai add des trucs}
 
 
 !!!!!!!!!!!
@@ -54,9 +61,13 @@ NEW ----> en gros, si y a pas de cmd genre au'une redirect, ca fous la merde psk
 
 POUR DEBUG, utiliser -fsanitize=address -static-libsan dans le cflag et utiliser le debugger
 
+||  24/04  || -- alan
 
+l'historique date de beaucoup trop longtemps, il est pas clean a chaque exit.
 
-error :
+||  24/04 || -- alan -fin
+
+ERROR :
 
 - <a ne donne pas le bon message d'erreur (osef ?) *{c etait pas bon j essayais de close des fd = -1 mais c est fix}
 -  export fonctionne pas de temps en temps *{normalement c est fix}
@@ -64,14 +75,17 @@ error :
 
 - ls >oui | < oui cat >>oui | < oui wc -l ; pas bon resultat *{apres test en tout genre le resultat semble indetermine et ducoup on a le bon mdr}
 
-A̶T̶T̶E̶N̶T̶I̶O̶N̶ :̶ L̶e̶ n̶o̶m̶ d̶'̶u̶n̶e̶ v̶-̶e̶n̶v̶ n̶e̶ p̶e̶u̶t̶ p̶a̶s̶ c̶o̶n̶t̶e̶n̶i̶r̶ n̶ i̶m̶p̶o̶r̶t̶e̶ q̶u̶e̶l̶ c̶a̶r̶a̶c̶t̶e̶r̶e̶ t̶y̶p̶e̶ ?̶
-
 - env var pete un plomb quand on met un $
 
-- entree quite si la ligne est vide (mon pb )
-- ctr-c sur cat creer un double prompte (mon pb)
-- ctrl \ ne stop pas l'exec (mon pb )
-- ctrl \ avec un prompt n'exit pas (mon pb)
+
+
+||  24/04  || -- alan
+
+- REDIRECT tout seul est toujours pas fonctionnel, il creer pas la redirection, pas de message d'erreur si elle est pas accessible, et mon core dump qui s'affiche alors que ca devrait pas (d'autres on fait ca pour le core dump donc ca devrait etre bon mais te tracasse pas trop si ca continue alors que ta fix);
+
+- export bug toujours, dans _on_success tu free head, et en suite dans _is_a_buildin tu check si head->next et prev sont nul, mais head est deja free
+
+||  24/04 || -- alan -fin
 
 COMMENTAIRE ;
 
@@ -79,8 +93,8 @@ J ai add un historique lisible, si tu fais "history" ca te le disp normalement, 
 J ai modifie bc de fonctions et split le main, faut que je fasse mes retours d erreurs de facon clean, on se mettra d accord pour une fonction qui free tout c est le mieux imo 
 normalement j ai corrige pas mal de bug ou de retour d erreur qui ne fonctionnait pas, te prend pas la tete avec la norm je la ferai. J ai cree la global mais elle est pas link.
 
-mec dans la correction ca parle d'argument pour exit, faut check ca.
-   echo ca parle du -n
+mec dans la correction ca parle d'argument pour exit, faut check ca. *{c est ecrit exit wit no option}
+   echo ca parle du -n *{c est ok ca -n c est jsute enlever le \n}
 
 
 
@@ -91,5 +105,25 @@ LEAAAAAAAAKS :
 - espace plante, peut etre a cause du manque de cmd
 
 
+
+COMMENTAIRE 23/04;
+j ai change pas mal de chose, je suis entrain de faire le retour d erreurs et la gestion memoire sur la partie exec ce qui devrait regler la masse de pb et de leaks,
+quasiment tous les fichiers avec exec_ ont ete touches, je me suis concentre sur le buildin ajf, je ferais la suite demain, ca compile pplus c est normal
+
+
+COMMENTAIRE 24/04
+
+||  24/04 || -- alan
+
+ mec pour la valeur de retour faut se pencher sur waitpid dans le man la partie sur wstatus;
+
+j'ai change le main pour pouvoir s'occuper des signaux et pas que ca plante dans certains cas.
+attention : ./minishell dans minishell fout la merde niveaux signaux.
+
+||  24/04 || -- alan -fin
+
 A TEST :
+
 env -i ./minishell
+
+ls -l >oui | <Makefile grep "SRCS" >>non | echo '        '$"$HOME"$

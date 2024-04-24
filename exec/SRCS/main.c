@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:35:44 by tmouche           #+#    #+#             */
-/*   Updated: 2024/04/22 13:55:42 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/24 13:55:13 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ static inline void	_add_history(t_data *args, char *line)
 	add_history(line);
 	fd = open(args->path_history, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
-		_error_exit(args, NULL, 1);
+		_exit_failure(args);
 	if (write(fd, line, ft_strlen(line, '0')) == -1 
 		|| write(fd, "\n", 1) == -1)
-		_error_exit(args, NULL, 1);
+		_exit_failure(args);
 }
 
 static inline int	_get_path_history(t_data *args)
@@ -59,15 +59,15 @@ static inline int	_get_path_history(t_data *args)
 	++i;
 	path = ft_calloc(sizeof(char), i + 1);
 	if (!path)
-		return (-1);
+		return (free (temp), -1);
 	ft_strlcpy(path, temp, ++i);
 	if (!path)
 		return (-1);
+	free (temp);
 	args->path_history = ft_strjoin(path, ".minishell-history");
+	free (path);
 	if (!args->path_history)
 		return (-1);
-	free(path);
-	free(temp);
 	return (0);
 }
 
@@ -90,7 +90,9 @@ static inline void	_execution(t_data *args)
 {
 	int	i;
 	int	count;
+	int wstatus;
 
+	wstatus = 0;
 	count = _how_many_cmd(args->head);	
 	if (count == 0)
 		exit (EXIT_FAILURE);
@@ -101,41 +103,60 @@ static inline void	_execution(t_data *args)
 	i = 0;
 	while (i < count)
 	{
-		waitpid(args->pid[i], NULL, 0);
+		waitpid(args->pid[i], &wstatus, 0);
 		++i;
+	}
+	if (WIFSIGNALED(wstatus))
+	{
+		if (WTERMSIG(wstatus))
+			printf("Quit (core         dumped)\n");
 	}
 	if (args->pid)
 		free (args->pid);
 	args->pid = NULL;
 }
 
+char	*prompt(char *pwd, t_data *args)
+{
+	char	*temp;
+	char	*line;
+
+	sig_int(0);
+	sig_quit(0);
+	temp = ft_strjoin (pwd, "$ ");
+	free (pwd);
+	line = readline(temp);
+	sig_int(1);
+	free (temp);
+	if (!line)
+	{
+		rl_clear_history();
+		free(args->pid);
+		free(args->path_history);
+		_freetab(args->env);
+		printf("exit\n");
+		exit (24);
+	}
+	if (line[0])
+		_add_history(args, line);
+	return (line);
+}
+
 void	_looper(t_data *args)
 {
 	char				*pwd;
-	char				*temp;
 	char				*line;
 	
 	args->pid = NULL;
 	pwd = _define_cwd();
+	line = NULL;
 	if (pwd)
-	{
-		temp = ft_strjoin (pwd, "$ ");
-		free (pwd);
-		line = readline(temp);
-		free (temp);
-		if (!line)
-		{
-			rl_clear_history();
-			free(args->pid);
-			free(args->path_history);
-			_freetab(args->env);
-			exit (24);
-		}
-	}
+		line = prompt(pwd, args);
 	else
-		return ;
-	_add_history(args, line);
+		;
 	parsing(line, args->env, args);
+	if (!args->head)
+		return ;
 	if (!args->head->next)
 	{
 		if (_is_a_buildin(args, args->head, NULL, NULL) == 0)
@@ -143,9 +164,9 @@ void	_looper(t_data *args)
 	}
 	else
 		_execution(args);
-	ft_sectclear(args->head);
-	//_lstfree(args->head, SECTION_LST);
-	//free (args.pid);
+	/*_lstfree(args.head, SECTION_LST);
+	free (args.pid);*/
+	_lstfree(args->head, SECTION_LST);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -160,8 +181,6 @@ int	main(int argc, char **argv, char **env)
 		return (-1);
 	if (_get_path_history(&args) == -1)
 		return (-1);
-	sig_int();
-	sig_quit();
 	while (42)
 		_looper(&args);
 	return (0);

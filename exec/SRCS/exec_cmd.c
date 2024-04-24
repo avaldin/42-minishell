@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 18:49:18 by thibaud           #+#    #+#             */
-/*   Updated: 2024/04/22 14:23:02 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/24 12:51:11 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	_exec_cmd(t_data *args, t_section *s_cmd, int *fd_pw, int *fd_pr)
 {
 	int	fd_f[2];
 
+	sig_quit(1);
 	fd_f[0] = 0;
 	fd_f[1] = 1;
 	_is_a_buildin(args, s_cmd, fd_pw, fd_pr);
@@ -32,14 +33,14 @@ static void	_exec_cmd(t_data *args, t_section *s_cmd, int *fd_pw, int *fd_pr)
 	if (fd_f[0] == 0 && s_cmd->prev)
 		fd_f[0] = fd_pr[0];
 	if (dup2(fd_f[0], 0) == -1)
-		_error_exit(args, NULL, 1);
+		_exit_failure(args);
 	if (fd_f[1] == 1 && s_cmd->next)
 		fd_f[1] = fd_pw[1];
 	if (dup2(fd_f[1], 1) == -1)
-		_error_exit(args, NULL, 1);
+		_exit_failure(args);
 	_pipe_closer(fd_pr, fd_pw, fd_f);
 	execve(s_cmd->path_cmd[0], s_cmd->path_cmd, args->env);
-	_error_exit(args, s_cmd->path_cmd[0], 1);
+	_exit_failure(args);
 }
 
 void	fork_n_exec(t_data *args, t_section *s_cmd)
@@ -48,17 +49,16 @@ void	fork_n_exec(t_data *args, t_section *s_cmd)
 
 	i = 0;
 	if (pipe(args->pipe) == -1)
-		_error_exit(args, NULL, 1);
+		_exit_failure(args);
 	if (pipe(args->pipe_sec) == -1)
-		_error_exit(args, NULL, 1);
+		_exit_failure(args);
 	while (s_cmd)
 	{
 		args->pid[i] = fork();
-
 		if (args->pid[i] == -1)
 		{
 			_pipe_closer(args->pipe, args->pipe_sec, NULL);
-			_error_exit(args, NULL, 1);
+			_exit_failure(args);
 		}
 		if (args->pid[i] == 0 && i % 2 == 0)
 			_exec_cmd(args, s_cmd, args->pipe, args->pipe_sec);
