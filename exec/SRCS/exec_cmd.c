@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 18:49:18 by thibaud           #+#    #+#             */
-/*   Updated: 2024/04/24 12:51:11 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/29 12:11:47 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,19 @@
 
 static void	_exec_cmd(t_data *args, t_section *s_cmd, int *fd_pw, int *fd_pr)
 {
-	int	fd_f[2];
+	char	**to_exec;
+	int		fd_f[2];
 
 	sig_quit(1);
 	fd_f[0] = 0;
 	fd_f[1] = 1;
-	_is_a_buildin(args, s_cmd, fd_pw, fd_pr);
+	if (_is_a_buildin(args, s_cmd, fd_pw, fd_pr) == 1)
+		_on_success(args, s_cmd, ALL);
 	_pathfinder(args, s_cmd->path_cmd);
 	if (s_cmd->file)
 		_open_file(args, s_cmd->file, fd_f);
+	if (!s_cmd->path_cmd[0])
+		_on_success(args, s_cmd, ALL);
 	if (fd_f[0] == 0 && s_cmd->prev)
 		fd_f[0] = fd_pr[0];
 	if (dup2(fd_f[0], 0) == -1)
@@ -39,8 +43,9 @@ static void	_exec_cmd(t_data *args, t_section *s_cmd, int *fd_pw, int *fd_pr)
 	if (dup2(fd_f[1], 1) == -1)
 		_exit_failure(args);
 	_pipe_closer(fd_pr, fd_pw, fd_f);
-	execve(s_cmd->path_cmd[0], s_cmd->path_cmd, args->env);
-	_exit_failure(args);
+	to_exec = _on_success(args, s_cmd, PARTIAL);
+	execve(to_exec[0], to_exec, args->env);
+	_exec_failed(to_exec, args->env);
 }
 
 void	fork_n_exec(t_data *args, t_section *s_cmd)

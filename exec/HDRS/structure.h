@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structure.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: thibaud <thibaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:55:51 by tmouche           #+#    #+#             */
-/*   Updated: 2024/04/24 13:01:51 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/29 07:26:07 by thibaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <fcntl.h>
 #include <signal.h>
 #include <stdio.h>
+#define EXIT_ERROR 360
 
 extern int	g_err;
 
@@ -53,6 +54,7 @@ typedef struct s_data
 	char				**env;
 	pid_t				*pid;
 	t_section			*head;
+	struct sigaction	*sa;
 	
 }				t_data;
 
@@ -65,21 +67,27 @@ typedef enum
 
 typedef enum
 {
-	EXIT,
-	NO_EXIT	
-}				e_exit;
-
-typedef enum
-{
 	WRITE,
 	AUTO	
 }				e_write;
 
 typedef enum
 {
-	BUILDIN,
-	SHELL	
+	ALL,
+	PARTIAL	
 }				e_from;
+
+typedef enum
+{
+	TOO_MANY,
+	NOT_NUMERIC
+}				e_err;
+
+typedef enum
+{
+	HOME,
+	OLDPWD
+}				e_cdenv;
 
 void	sig_int(int mode);
 void	sig_quit(int mode);

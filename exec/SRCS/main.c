@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:35:44 by tmouche           #+#    #+#             */
-/*   Updated: 2024/04/24 13:55:13 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/04/29 12:13:21 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,13 @@ static inline void	_add_history(t_data *args, char *line)
 	fd = open(args->path_history, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 		_exit_failure(args);
-	if (write(fd, line, ft_strlen(line, '0')) == -1 
+	if (write(fd, line, ft_strlen(line, 0)) == -1 
 		|| write(fd, "\n", 1) == -1)
+	{
+		close (fd);
 		_exit_failure(args);
+	}
+	close (fd);
 }
 
 static inline int	_get_path_history(t_data *args)
@@ -94,29 +98,24 @@ static inline void	_execution(t_data *args)
 
 	wstatus = 0;
 	count = _how_many_cmd(args->head);	
-	if (count == 0)
-		exit (EXIT_FAILURE);
 	args->pid = malloc(sizeof(pid_t) * count);
 	if (!args->pid)
 		exit (EXIT_FAILURE);
 	fork_n_exec(args, args->head);
-	i = 0;
-	while (i < count)
-	{
+	i = -1;
+	while (++i < count)
 		waitpid(args->pid[i], &wstatus, 0);
-		++i;
-	}
-	if (WIFSIGNALED(wstatus))
+	if (WIFSIGNALED(wstatus) && WTERMSIG(wstatus))
 	{
-		if (WTERMSIG(wstatus))
-			printf("Quit (core         dumped)\n");
+		if (write(2, "Quit (core dumped)\n", 28) == -1)
+			_exit_failure(args);
 	}
 	if (args->pid)
 		free (args->pid);
 	args->pid = NULL;
 }
 
-char	*prompt(char *pwd, t_data *args)
+static inline char	*prompt(char *pwd, t_data *args)
 {
 	char	*temp;
 	char	*line;
@@ -131,10 +130,11 @@ char	*prompt(char *pwd, t_data *args)
 	if (!line)
 	{
 		rl_clear_history();
-		free(args->pid);
-		free(args->path_history);
+		free (args->pid);
+		free (args->path_history);
 		_freetab(args->env);
-		printf("exit\n");
+		if (write (2, "exit\n", 6) == -1)
+			_exit_failure(args);
 		exit (24);
 	}
 	if (line[0])
@@ -149,11 +149,9 @@ void	_looper(t_data *args)
 	
 	args->pid = NULL;
 	pwd = _define_cwd();
-	line = NULL;
-	if (pwd)
-		line = prompt(pwd, args);
-	else
-		;
+	if (!pwd)
+		_exit_failure(args);
+	line = prompt(pwd, args);
 	parsing(line, args->env, args);
 	if (!args->head)
 		return ;
@@ -164,9 +162,10 @@ void	_looper(t_data *args)
 	}
 	else
 		_execution(args);
-	/*_lstfree(args.head, SECTION_LST);
-	free (args.pid);*/
-	_lstfree(args->head, SECTION_LST);
+	if (args->pid)
+		free (args->pid);
+	if (args->head)
+		_lstfree(args->head, SECTION_LST);
 }
 
 int	main(int argc, char **argv, char **env)

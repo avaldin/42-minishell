@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_env_var.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibaud <thibaud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 11:20:59 by avaldin           #+#    #+#             */
-/*   Updated: 2024/04/23 05:38:29 by thibaud          ###   ########.fr       */
+/*   Updated: 2024/04/29 15:37:17 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static char	*find_var(char *name, char **env, int len)
 	i = 0;
 	while (env[i] && ft_strncmp(name, env[i], len))
 		i++;
-	if (!env[i] || !env[i][len + 1])
+	if (!env[i] || !env[i][len + 1] || !len)
 		return (NULL);
 	return (_strdup(env[i], len + 1, -1));
 }
