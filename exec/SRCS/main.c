@@ -103,13 +103,11 @@ static inline void	_execution(t_data *args)
 	fork_n_exec(args, args->head);
 	_close_pipe(args);
 	i = -1;
-	printf("befor return = %d\n", WEXITSTATUS(wstatus));
 	while (++i < args->count)
 	{
 		waitpid(args->pid[i], &wstatus, 0);
 		args->exit_status = WEXITSTATUS(wstatus);
 	}
-	printf("return = %d\n", WEXITSTATUS(wstatus));
 	if (WIFSIGNALED(wstatus) && WTERMSIG(wstatus) == 3)
 	{
 		if (write(2, "Quit (core dumped)\n", 18) == -1)
@@ -207,10 +205,7 @@ int	main(int argc, char **argv, char **env)
 	if (_get_path_history(&args) == -1)
 		return (-1);
 	while (42)
-	{
 		_looper(&args);
-		printf("exit status = %d\n", args.exit_status);
-	}
 	return (0);
 }
  
