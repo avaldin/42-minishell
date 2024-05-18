@@ -57,6 +57,7 @@ static char	*_give_path(t_data *args, char **path, char *cmd)
 		}
 		if (access(path_cmd, F_OK) == 0)
 		{
+			printf("haha\n");
 			if (access(path_cmd, X_OK) == -1)
 			{
 				args->exit_status = 126;
