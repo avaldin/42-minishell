@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structure.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmouche <tmouche@student.42.fr>            +#+  +:+       +#+        */
+/*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 18:55:51 by tmouche           #+#    #+#             */
-/*   Updated: 2024/05/14 18:26:58 by tmouche          ###   ########.fr       */
+/*   Updated: 2024/05/22 10:12:47 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include <stdio.h>
 #include "structure.h"
 #define EXIT_ERROR 360
+
+extern int	g_sig;
 
 typedef struct s_index
 {
@@ -53,6 +55,7 @@ typedef struct	s_section
 {
 	int					fd_f[2];
 	char 				**path_cmd;
+	int 				heredoc_protec;
 	char				*pipe;
 	t_file				*file;
 	void				(*function_ptr)(t_data *, struct s_section *);

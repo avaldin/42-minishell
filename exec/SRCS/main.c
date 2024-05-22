@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmouche <tmouche@student.42.fr>            +#+  +:+       +#+        */
+/*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:35:44 by tmouche           #+#    #+#             */
-/*   Updated: 2024/05/16 18:54:22 by tmouche          ###   ########.fr       */
+/*   Updated: 2024/05/22 10:26:35 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 #include "../HDRS/execution.h"
 #include "../include/libft/libft.h"
 
-int	g_err;
+int g_sig = 0;
 
 static inline void	_add_history(t_data *args, char *line)
 {
@@ -112,10 +112,8 @@ static inline void	_execution(t_data *args)
 	{
 		if (write(2, "Quit (core dumped)\n", 18) == -1)
 			_exit_failure(args);
+		args->exit_status = 131;
 	}
-	if (args->pid)
-		free (args->pid);
-	args->pid = NULL;
 }
 
 static inline char	*prompt(char *pwd, t_data *args)
@@ -125,8 +123,13 @@ static inline char	*prompt(char *pwd, t_data *args)
 
 	sig_int(0);
 	sig_quit(0);
+	if (g_sig)
+		args->exit_status = g_sig;
+	g_sig = 0;
 	temp = ft_strjoin (pwd, "$ ");
-	free (pwd);
+	if (!temp)
+		_exit_failure(args);
+	printf("exit status = %d\n", args->exit_status);
 	line = readline(temp);
 	sig_int(1);
 	free (temp);
@@ -154,7 +157,7 @@ void	_looper(t_data *args)
 	
 	args->pid = NULL;
 	args->pipe = NULL;
-	pwd = _define_cwd();
+	pwd = _getenv(args->env, "PWD");
 	if (!pwd)
 		_exit_failure(args);
 	line = prompt(pwd, args);
@@ -166,6 +169,8 @@ void	_looper(t_data *args)
 		args->count = 1;
 		temp_stdin = dup(0);
 		temp_stdout = dup(1);
+		close (temp_stdin);
+		close (temp_stdout);
 		if (_fd_handler(args, args->head, 0) == 1)
 			args->head->function_ptr(args, args->head);
 		if (args->head->file)
@@ -176,10 +181,10 @@ void	_looper(t_data *args)
 	}
 	else
 		_execution(args);
+	_lstfree(args->head, SECTION_LST);
 	if (args->pid)
 		free (args->pid);
-	if (args->head)
-		_lstfree(args->head, SECTION_LST);
+	args->head = NULL;
 }
 
 int	main(int argc, char **argv, char **env)
@@ -189,7 +194,6 @@ int	main(int argc, char **argv, char **env)
 	
 	(void)argc;
 	(void)argv;
-	g_err = 0;
 	args.exit_status = 0;
 	args.pipe = NULL;
 	args.env = _map_cpy(env);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmouche <tmouche@student.42.fr>            +#+  +:+       +#+        */
+/*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 18:49:18 by thibaud           #+#    #+#             */
-/*   Updated: 2024/05/16 19:35:12 by tmouche          ###   ########.fr       */
+/*   Updated: 2024/05/22 12:14:12 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static void	_open_pipe(t_data *args)
 	int	index;
 
 	index = 0;
+	if (args->count == 1)
+		 return ;
 	args->pipe = ft_calloc(sizeof(int *), args->count - 1);
 	if (!args->pipe)
 		_exit_failure(args);
@@ -66,11 +68,13 @@ static void	_open_pipe(t_data *args)
 
 void	fork_n_exec(t_data *args, t_section *s_cmd)
 {
-	int	i;
+	t_section	*temp;
+	int			i;
 
 	i = 0;
 	_open_pipe(args);
-	while (s_cmd)
+	temp = s_cmd;
+	while (temp)
 	{
 		args->pid[i] = fork();
 		if (args->pid[i] == -1)
@@ -79,8 +83,8 @@ void	fork_n_exec(t_data *args, t_section *s_cmd)
 			_exit_failure(args);
 		}
 		if (args->pid[i] == 0)
-			_exec_cmd(args, s_cmd, i);
-		s_cmd = s_cmd->next;
+			_exec_cmd(args, temp, i);
+		temp = temp->next;
 		++i;
 	}
 }

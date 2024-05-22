@@ -6,7 +6,7 @@
 /*   By: thibaud <thibaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 20:25:47 by tmouche           #+#    #+#             */
-/*   Updated: 2024/05/16 01:25:25 by thibaud          ###   ########.fr       */
+/*   Updated: 2024/05/20 22:17:40 by thibaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,7 @@ void	_bi_exit(t_data *args, t_section *s_cmd)
 		free (args->path_history);
 	if (args->env)
 		_freetab(args->env);
+	if (args->env_history)
+		_freetab(args->env_history);
 	exit (args->exit_status);
 }

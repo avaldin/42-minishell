@@ -6,7 +6,7 @@
 /*   By: tmouche <tmouche@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:06:50 by tmouche           #+#    #+#             */
-/*   Updated: 2024/05/14 22:26:29 by tmouche          ###   ########.fr       */
+/*   Updated: 2024/05/21 19:12:43 by tmouche          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	_freetab(char **tab)
 		return ;
 	while (tab[i])
 	{
-		free (tab[i]);
+		if (tab[i][0])
+			free (tab[i]);
 		++i;
 	}
 	free (tab);
@@ -78,7 +79,6 @@ void	_lstfree(void *lst, e_type typelst)
 
 void	_exit_failure(t_data *args)
 {
-	args->exit_status = errno;
 	if (args->pid)
 		free (args->pid);
 	if (args->head)
