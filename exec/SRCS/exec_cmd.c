@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 18:49:18 by thibaud           #+#    #+#             */
-/*   Updated: 2024/05/22 12:14:12 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/05/22 12:15:45 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	_open_pipe(t_data *args)
 
 	index = 0;
 	if (args->count == 1)
-		 return ;
+		return ;
 	args->pipe = ft_calloc(sizeof(int *), args->count - 1);
 	if (!args->pipe)
 		_exit_failure(args);

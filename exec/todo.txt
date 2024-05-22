@@ -50,12 +50,16 @@ il faut gerer les flags sur les build ins (jsp si je le fait pour ceux qui n en 
 4-
 << hehe cat --> ctrl-D pas le bon exit status, et un success qui vient de jsp ou
 
+5-
+je dois faire que $? donne l'exit status, je dois changer une fonction mais trkl c'est vite fait
 
 !!!!  A FAIRE ENSEMBLE !!!!------------
 
 heredoc, jsp comment ca fonctionne et faut s'occuper que si sect->heredoc_protec == 1, on touche pas aux env vars mais si c'est nul faut transformer les variables.
 
 minishell dans minishell a un pb de signaux, je sais comment le regler mais ca touche a tes trucs donc faut voir ensemble.
+
+s'occuper de / seul, l'exit status et le msg d'erreur est pas bon.
  --------------------------------------
 
 leak->

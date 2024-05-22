@@ -12,13 +12,14 @@
 
 #ifndef EXECUTION_H
 # define EXECUTION_H
-#include "../HDRS/structure.h"
+# include "../HDRS/structure.h"
 
 char	*_give_strerror_dir(t_data *args, char *str);
 char	*_give_strerror_cmd(t_data *args, char *str);
 char	*_give_strerror_identifier(t_data *args, t_index *lst, char *str);
 
-_Bool	_egal_present(t_data *args, t_section *s_cmd, t_index **lst, int i_args);
+_Bool	_egal_present(t_data *args, t_section *s_cmd, t_index **lst,
+			int i_args);
 
 _Bool	_fd_handler(t_data *args, t_section *s_cmd, int id);
 void	fork_n_exec(t_data *args, t_section *cmd);
@@ -52,7 +53,7 @@ void	_lstaddback_index(t_index **lst, t_index *new);
 t_index	*_lstlast_index(t_index *lst);
 int		_lstsize_index(t_index *lst);
 t_index	*_lstnew_index(int content);
-char 	*_define_cwd(void);
+char	*_define_cwd(void);
 
 void	_close_pipe(t_data *args);
 void	_close_file(t_data *args, int *fd, int id);

@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 18:35:44 by tmouche           #+#    #+#             */
-/*   Updated: 2024/05/22 10:26:35 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/05/22 12:32:22 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 #include "../HDRS/execution.h"
 #include "../include/libft/libft.h"
 
-int g_sig = 0;
+int	g_sig = 0;
 
 static inline void	_add_history(t_data *args, char *line)
 {
@@ -38,7 +38,7 @@ static inline void	_add_history(t_data *args, char *line)
 	fd = open(args->path_history, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 		_exit_failure(args);
-	if (write(fd, line, ft_strlen(line, 0)) == -1 
+	if (write(fd, line, ft_strlen(line, 0)) == -1
 		|| write(fd, "\n", 1) == -1)
 	{
 		close (fd);
@@ -93,10 +93,10 @@ static inline int	_how_many_cmd(t_section *cmd)
 static inline void	_execution(t_data *args)
 {
 	int	i;
-	int wstatus;
+	int	wstatus;
 
 	wstatus = 0;
-	args->count = _how_many_cmd(args->head);	
+	args->count = _how_many_cmd(args->head);
 	args->pid = malloc(sizeof(pid_t) * args->count);
 	if (!args->pid)
 		exit (EXIT_FAILURE);
@@ -154,7 +154,7 @@ void	_looper(t_data *args)
 	int					temp_stdout;
 	char				*pwd;
 	char				*line;
-	
+
 	args->pid = NULL;
 	args->pipe = NULL;
 	pwd = _getenv(args->env, "PWD");
@@ -191,7 +191,7 @@ int	main(int argc, char **argv, char **env)
 {
 	t_data	args;
 	int		i;
-	
+
 	(void)argc;
 	(void)argv;
 	args.exit_status = 0;
@@ -212,4 +212,3 @@ int	main(int argc, char **argv, char **env)
 		_looper(&args);
 	return (0);
 }
- 

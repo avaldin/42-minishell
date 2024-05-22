@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:47:51 by tmouche           #+#    #+#             */
-/*   Updated: 2024/05/22 12:25:56 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/05/22 12:27:19 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	_freeint(int **tab, int size)
 void	_exec_failed(char **cmd, char **env, char *not_found, int exit_status)
 {
 	char	*temp;
-	
+
 	temp = ft_strjoin("bash: ", not_found);
 	_freetab(cmd);
 	_freetab(env);
@@ -74,7 +74,6 @@ void	_on_error(t_data *args, char *str, int err, e_write write_id)
 		_freetab(args->env);
 	exit (args->exit_status);
 }
-
 
 char	**_on_success(t_data *args, t_section *s_cmd, e_from from_id)
 {
