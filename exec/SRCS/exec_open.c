@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 18:12:53 by tmouche           #+#    #+#             */
-/*   Updated: 2024/05/24 17:01:10 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/05/24 17:45:21 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,11 @@ static int	_heredoc_handling(t_data *args, t_file *file)
 	{
 		line = get_next_line(STDIN_FILENO);
 		if (!line)
+		{
+			close (pipe_heredoc[0]);
+			close (pipe_heredoc[1]);
 			_exit_failure(args);
+		}
 		if (file->name && ft_strncmp(line, file->name[1], name_len - 1) == 0)
 			break ;
 		line = _pars_heredoc(args, file, line);
@@ -67,6 +71,7 @@ static int	_heredoc_handling(t_data *args, t_file *file)
 			close (pipe_heredoc[1]);
 			_exit_failure(args);
 		}
+		free(line);
 	}
 	close (pipe_heredoc[1]);
 	return (pipe_heredoc[0]);

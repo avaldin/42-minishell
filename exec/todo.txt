@@ -84,3 +84,19 @@ creer OLDPWD apres le premier cd
 
 
 revoir export
+
+----
+cat << hehe
+ctrl-c
+-->exec_open l 61 close les heredoc et free line a la fin de la boucle
+
+cat << hehe
+ctrl-\
+--> _exec_cmd deplacer sigquit(1) juste avant le execve
+----
+
+
+pb pas regle :
+
+ctrl \ dans heredoc
+success dans le heredoc de temps en temps

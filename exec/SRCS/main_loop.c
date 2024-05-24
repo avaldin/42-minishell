@@ -77,7 +77,7 @@ static inline void	_execution(t_data *args)
 	args->exit_status = WEXITSTATUS(wstatus[1]);
 	if (WIFSIGNALED(wstatus[1]) && WTERMSIG(wstatus[1]) == 3)
 	{
-		if (write(2, "Quit (core dumped)\n", 18) == -1)
+		if (write(2, "Quit (core dumped)\n", 19) == -1)
 			_exit_failure(args);
 		args->exit_status = 131;
 	}
