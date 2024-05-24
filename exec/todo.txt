@@ -77,5 +77,10 @@ leak cd :
 --------------------------------------------------------------------------------------------------
 
 
+tester cd en detail.
+pb sur cd test l 440
 
-exec_open l 58 wtf ??
+creer OLDPWD apres le premier cd 
+
+
+revoir export

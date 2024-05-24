@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_free.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: thibaud <thibaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 16:47:51 by tmouche           #+#    #+#             */
-/*   Updated: 2024/05/22 12:27:19 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/05/22 19:46:28 by thibaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include <unistd.h>
 #include "../HDRS/execution.h"
 #include "../include/libft/libft.h"
-#include <stdio.h>
 
 void	_freeint(int **tab, int size)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmouche <tmouche@student.42.fr>            +#+  +:+       +#+        */
+/*   By: thibaud <thibaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 16:17:43 by tmouche           #+#    #+#             */
-/*   Updated: 2024/05/21 23:01:36 by tmouche          ###   ########.fr       */
+/*   Updated: 2024/05/23 22:26:30 by thibaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ _Bool	_egal_present(t_data *args, t_section *s_cmd, t_index **lst,
 _Bool	_fd_handler(t_data *args, t_section *s_cmd, int id);
 void	fork_n_exec(t_data *args, t_section *cmd);
 _Bool	_write_env(char **env, char *pre_str);
+
+char	*_pars_heredoc(t_data *args, t_file *file, char *line);
 
 void	_add_to_env_history(t_data *args, char *new_cmd);
 void	_pathfinder(t_data *args, char **cmd);
@@ -59,5 +61,10 @@ void	_close_pipe(t_data *args);
 void	_close_file(t_data *args, int *fd, int id);
 
 int		_check_args_history(t_data *args, t_section *s_cmd);
+
+char	**_set_env(char **env);
+
+char	*prompt(char *pwd, t_data *args);
+void	_looper(t_data *args);
 
 #endif

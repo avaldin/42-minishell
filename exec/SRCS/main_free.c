@@ -91,6 +91,7 @@ void	_exit_failure(t_data *args)
 		_freetab(args->env_history);
 	if (args->pipe)
 		_freeint(args->pipe, args->count);
-	perror(NULL);
+	if (errno != EINTR)
+		perror(NULL);
 	exit(EXIT_FAILURE);
 }

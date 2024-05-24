@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_buildin_env.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmouche <tmouche@student.42.fr>            +#+  +:+       +#+        */
+/*   By: thibaud <thibaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:58:59 by tmouche           #+#    #+#             */
-/*   Updated: 2024/05/14 21:35:14 by tmouche          ###   ########.fr       */
+/*   Updated: 2024/05/24 03:54:08 by thibaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	_bi_env(t_data *args, t_section *s_cmd)
 	char	*error;
 	int		res;
 
-	printf("open past\n");
 	if (s_cmd->path_cmd[1])
 	{
 		_close_pipe(args);
@@ -52,4 +51,5 @@ void	_bi_env(t_data *args, t_section *s_cmd)
 	_close_pipe(args);
 	if (res == -1)
 		_exit_failure(args);
+	args->exit_status = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 13:07:34 by avaldin           #+#    #+#             */
-/*   Updated: 2024/05/22 10:19:20 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/05/24 16:59:34 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,22 @@ static void	*ft_memset(void *s, int c, size_t n)
 	return (s);
 }
 
+void	handle_sig_c(int sig)
+{
+	if (sig == SIGINT)
+	{
+		g_sig = 130;
+		rl_on_new_line();
+		rl_replace_line("", 1);
+	}
+}
+
 void	handle_sig_b(int sig)
 {
 	if (sig == SIGINT)
 	{
 		g_sig = 130;
 		write(1, "\n", 2);
-		rl_redisplay();
 	}
 }
 
@@ -60,8 +69,10 @@ void	sig_int(int mode)
 	ft_memset(&sa, 0, sizeof(sa));
 	if (!mode)
 		sa.sa_handler = &handle_sig_a;
-	else
+	else if (mode == 1)
 		sa.sa_handler = &handle_sig_b;
+	else if (mode == 2)
+		sa.sa_handler = &handle_sig_c;
 	sigaction(SIGINT, &sa, NULL);
 }
 
