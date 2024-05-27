@@ -113,7 +113,10 @@ void	_looper(t_data *args)
 	if (!args->head)
 		return ;
 	if (!args->head->next && _is_a_buildin(args->head) == 1)
+	{
+		printf("hehe\n");
 		_exec_nofork(args);
+	}
 	else
 		_execution(args);
 	_lstfree(args->head, SECTION_LST);

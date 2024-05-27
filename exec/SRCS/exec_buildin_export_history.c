@@ -74,7 +74,7 @@ static inline void	_add_line_history(t_data *args, char *cmd)
 		free (cmd);
 		_exit_failure(args);
 	}
-	free (args->env_history);
+
 	args->env_history = new_env;
 	return ;
 }
