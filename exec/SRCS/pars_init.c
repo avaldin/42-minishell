@@ -19,10 +19,10 @@ static void	add_section(t_data *data, char *line, int start, int end)
 
 	sect = ft_calloc(1, sizeof(t_section));
 	if (!sect)
-		clean_exit(data);
+		_exit_failure(data);
 	sect->pipe = _strdup(line, start, end - start);
 	if (!sect->pipe)
-		clean_exit(data);
+		_exit_failure(data);
 	sect->fd_f[0] = 0;
 	sect->fd_f[1] = 1;
 	data->head = ft_sectadd_back(data->head, sect);

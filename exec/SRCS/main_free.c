@@ -6,7 +6,7 @@
 /*   By: tmouche <tmouche@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 09:06:50 by tmouche           #+#    #+#             */
-/*   Updated: 2024/05/21 19:12:43 by tmouche          ###   ########.fr       */
+/*   Updated: 2024/05/24 18:37:36 by tmouche          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "../HDRS/structure.h"
 #include "../include/libft/libft.h"
 
-static void	_stctfree(void *stct, e_type typelst)
+static void	_stctfree(void *stct, t_type typelst)
 {
 	if (typelst == SECTION_LST && stct)
 	{
@@ -47,14 +47,13 @@ void	_freetab(char **tab)
 		return ;
 	while (tab[i])
 	{
-		if (tab[i][0])
-			free (tab[i]);
+		free (tab[i]);
 		++i;
 	}
 	free (tab);
 }
 
-void	_lstfree(void *lst, e_type typelst)
+void	_lstfree(void *lst, t_type typelst)
 {
 	void	*temp;
 

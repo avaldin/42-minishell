@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: tmouche <tmouche@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 19:27:07 by thibaud           #+#    #+#             */
-/*   Updated: 2024/05/24 16:23:40 by avaldin          ###   ########.fr       */
+/*   Updated: 2024/05/24 18:45:26 by tmouche          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	_exec_nofork(t_data *args)
 {
 	int	temp_stdin;
 	int	temp_stdout;
-	
+
 	args->count = 1;
 	temp_stdin = dup(0);
 	temp_stdout = dup(1);
@@ -77,7 +77,7 @@ static inline void	_execution(t_data *args)
 	args->exit_status = WEXITSTATUS(wstatus[1]);
 	if (WIFSIGNALED(wstatus[1]) && WTERMSIG(wstatus[1]) == 3)
 	{
-		if (write(2, "Quit (core dumped)\n", 19) == -1)
+		if (write(2, "Quit (core dumped)\n", 18) == -1)
 			_exit_failure(args);
 		args->exit_status = 131;
 	}
