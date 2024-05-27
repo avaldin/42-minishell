@@ -43,6 +43,7 @@ static inline void	_line_error(t_data *args)
 	free (args->pid);
 	free (args->path_history);
 	_freetab(args->env);
+	free (args->env_history);
 	if (write (2, "exit\n", 6) == -1)
 		_exit_failure(args);
 	exit (24);

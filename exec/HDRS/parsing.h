@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibaud <thibaud@student.42.fr>            +#+  +:+       +#+        */
+/*   By: avaldin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 19:03:40 by tmouche           #+#    #+#             */
-/*   Updated: 2024/05/23 03:08:44 by thibaud          ###   ########.fr       */
+/*   Updated: 2024/05/27 10:10:10 by avaldin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void		red_quote_expender(t_section *sect);
 void		redirection(t_data *data, char **env);
 void		command(t_section *first, char **env);
 
+int			white_space(char *line);
 int			checking(char *line);
 int			red_syntax(char *line);
 char		*str_cut(char *line, int start, int end);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tmouche <tmouche@student.42.fr>            +#+  +:+       +#+         #
+#    By: avaldin <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/18 10:53:51 by tmouche           #+#    #+#              #
-#    Updated: 2024/05/24 18:21:54 by tmouche          ###   ########.fr        #
+#    Updated: 2024/05/27 10:02:40 by avaldin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ SRCS	:=	main.c main_free.c main_env.c main_loop.c main_prompt.c\
 			exec_gnl.c exec_gnl_utils.c \
 			exec_checker_path.c exec_cmd.c exec_utils.c exec_utils_2.c\
 			exec_buildin.c exec_buildin_echo.c exec_buildin_pwd.c exec_buildin_env.c exec_buildin_unset.c exec_buildin_export.c exec_buildin_export_utils.c exec_buildin_export_history.c exec_buildin_exit.c exec_buildin_cd.c exec_buildin_cd_utils.c\
-			exec_buildin_history.c exec_buildin_history_utils.c exec_buildin_utils.c exec_free.c exec_open.c exec_utils_error.c\
+			exec_buildin_history.c exec_buildin_history_utils.c exec_buildin_utils.c exec_free.c exec_open.c exec_heredoc.c exec_utils_error.c\
 			signal.c \
 
 SRCS_D	:= SRCS/
